@@ -1,11 +1,11 @@
 {
   "_id": "_design/photon",
   "name": "Photon 0.2β",
-  "version": "0.2.767",
+  "version": "0.2.779",
   "apps": {
     "cw-Photon": {
       "id": "cw.Photon",
-      "build": 767,
+      "build": 779,
       "Version": "0.2",
       "Cfg": {
         "font": "auto",
@@ -198,6 +198,7 @@
             "H_DELDOCS": "Deleted",
             "H_SEQ": "Seq",
             "H_SIZE": "Disk",
+            "TXT_TASK_TITLE": "Tasks",
             "TAGS_TASK_TYPE": {
               "tags": [
                 [
@@ -210,9 +211,10 @@
                 ]
               ],
               "empty": {
-                "All": ""
+                " All ": ""
               }
-            }
+            },
+            "BTN_TASK_NEWSYNC": "New sync…"
           },
           "$doc": {
             "TXT_REV": "Latest revision",
@@ -1176,7 +1178,7 @@
         "Get": "function (redraw) {\n\tvar that = this,\n\t\t\td = that.data;\n\t\n\treturn that.Req(d.path)\n\t.then(function(res){\n\t\tObject.keys(res).sort().forEach(function(i){\n\t\t\td.doc[i] = !Object.isObject(res[i])?res[i]:Object.keys(res[i]).sort().reduce(function(a,b){a[b]=res[i][b]; return a;},{});\n\t\t});\n\t\tthat.Doc = [{labelWidth:200,doc:that.data.doc}];\n\t\tthat.Old = Object.clone(d.doc, true);\n\t\td.cmp = {added:[],updated:[],deleted:[],invalid:{}};\n\t})\n\t.then(function(){\n\t\td.stamp = Date.now();\n\t\tif (redraw) that.my.recalc('#jseditor');\n\t\tthat.my.trigger('#cfg-proxy','resettabhash.my');\n\t})\n\t.fail(function(code,err,msg){\n\t\tcw.lib.note(that.lang.ERR_RELOAD.assign(code, err.truncate(45,'right','…').escapeHTML()), 'error');\n\t});\n}",
         "Cmp": "function _compare() {\n\t// compares this.Old and data.doc,\n\t// returns {updated, added, deleted, invalid}\n\t\n\tvar res = {\n\t\tupdated:[],\n\t\tadded:[],\n\t\tdeleted:[],\n\t\tinvalid:{},\n\t\toldcfg:{},\n\t\tnewcfg:{}\n\t};\n\t\n\tvar that = this,\n\t\t\tl = that.lang,\n\t\t\tle = l.ERR_VAL,\n\t\t\told = Object.clone(that.Old, true),\n\t\t\tcfg = Object.clone(that.data.doc, true),\n\t\t\tv0 = res.oldcfg = _keys(old, false),\n\t\t\tv1 = res.newcfg = _keys(cfg, true),\n\t\t\tinv = Object.keys(res.invalid),\n\t\t\tk0 = Object.keys(v0).subtract(inv),\n\t\t\tk1 = Object.keys(v1).subtract(inv);\n\t\n\t// deleted\n\tres.deleted = k0.subtract(k1);\n\tres.added = k1.subtract(k0);\n\tres.updated = k1.subtract(res.added).filter(function(k){\n\t\treturn JSON.stringify(v0[k]) != JSON.stringify(v1[k]);\n\t});\n\t\n\treturn res;\n\t\n\t// - - - - - - - - - - -\n\t\n\tfunction _keys(obj, check) {\n\t\tvar a = {},\n\t\t\t\tre = /^[a-z0-9_\\-!\\.]+$/i,\n\t\t\t\trehkey0 = /^httpd_.+_handlers$/,\n\t\t\t\trehkey1 = /^[a-z0-9_\\-!\\.\\/]+$/i;\n\t\t\n\t\tObject.keys(obj).forEach(function(lvl0){\n\t\t\tvar sobj = obj[lvl0];\n\t\t\tif (!Object.isObject(sobj)) return;\n\t\t\t\n\t\t\tObject.keys(sobj).forEach(function(lvl1){\n\t\t\t\tvar k = lvl0+'\\u2003'+lvl1;\n\t\t\t\tif (check) {\n\t\t\t\t\tif (rehkey0.test(lvl0) && !rehkey1.test(lvl1)) {\n\t\t\t\t\t\t//invalid key\n\t\t\t\t\t\tres.invalid[k] = le.CHARS;\n\t\t\t\t\t}\n\t\t\t\t\tif (!rehkey0.test(lvl0) && !re.test(lvl1)) {\n\t\t\t\t\t\t//invalid key\n\t\t\t\t\t\tres.invalid[k] = le.CHARS;\n\t\t\t\t\t}\n\t\t\t\t\telse if (!Object.isString(sobj[lvl1])) {\n\t\t\t\t\t\t//invalid val\n\t\t\t\t\t\tres.invalid[k] = le.VALSTRING;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\ta[k] = sobj[lvl1];\n\t\t\t});\n\t\t});\n\t\treturn a;\n\t}\n\t\n}",
         "Save": "function _save_config() {\n\tvar that = this,\n\t\t\tcfg = that.Cmp(),\n\t\t\tnc = cfg.newcfg,\n\t\t\tcompiled = that.Pho('_compiled'),\n\t\t\tes = function(s){return (s+'').escapeHTML()},\n\t\t\tl = that.lang,\n\t\t\tsteps = [],\n\t\t\terrs = {};\n\t\n\tcfg.deleted.forEach(function(k){\n\t\tsteps.push({key:k, value:null })\n\t});\n\tcfg.added.concat(cfg.updated).forEach(function(k){\n\t\tsteps.push({key:k, value:nc[k] })\n\t});\n\n\tvar ctr = steps.length;\n\tsteps.forEach(function(obj, i){\n\t\t\t\t\n\t\tthat.Req({\n\t\t\turl:['_config'].concat(obj.key.split('\\u2003')), \n\t\t\tmethod:obj.value !== null?'PUT':'DELETE', \n\t\t\theaders:obj.value !== null?{'Content-type':'application/json'}:{},\n\t\t\tdata:obj.value !== null?JSON.stringify(obj.value):undefined\n\t\t})\n\t\t.then(function(){\n\t\t\tcw.log('Photon updated config key', obj.key.split('\\u2003'));\n\t\t})\n\t\t.fail(function(code, err, msg){\n\t\t\terrs[obj.key] = {code:code, error:err, reason:msg};\n\t\t})\n\t\t.always(function(){\n\t\t\tctr -= 1;\n\t\t\tif (!ctr) _end();\n\t\t});\n\n\t}.lazy(that.Pho('Cfg').batchUpdateCfg || 100));\n\t\n\tfunction _end(){\n\t\tif (Object.size(errs)) {\n\t\t\tcw.lib.note(l.MSG_SAVE_FAIL, 'error');\n\t\t\tconsole.log ('Errors during config update:');\n\t\t\tconsole.log(errs);\n\t\t}\n\t\telse {\n\t\t\tcw.lib.note(l.MSG_SAVE_OK, 'ok');\n\t\t\tthat.Get(true);\n\t\t}\n\t}\n}",
-        "HTML": "<div class=\"w75p  dib vat\" id=\"cfg-panel-left\"><div id=\"a-head\" class=\"app-head nw pt18 pl20 pr20 lh160\"><div class=\"fr w20p fs95\"><div class=\"fi-magnifying-glass blue o50 fs95\" style=\"position: absolute; z-index: +1; left: 8px;top: 0.2em;\"></div><input type=\"text\" id=\"app-search\" class=\"ui-search w100p ml0 mr0 mt0 pr10\" placeholder=\"{PLC_SEARCH}\" style=\"background-image:none;padding-right:19px!important;\"><span class=\"fi-x fs80 dib vat pt2 blue ui-search-clear\" style=\"margin-left:-19px!important;\"onclick=\"$(this).siblings('input:eq(0)').val('').blur()\"></span></div><div id=\"app-title\" class=\"dib vat fs160 lh120 ell mr20\" style=\"max-width:40%\"></div><div class=\"nw mr10 dib vat tac w40p\" ><button id=\"btn-reload\" class=\"w40 mr2\" title=\"{PLC_RELOAD}\"><span class=\"fi-loop\"></span></button><button id=\"btn-cfg-save\" class=\"green mr2\" disabled>{BTN_SAVE}</button></div></div><div class=\"panelheight feather\"><div id=\"jseditor\" class=\"panelheight pl20 pr20 pt10 pb16\"></div></div></div><div class=\"w25p dib vat\"><div id=\"a-head\" class=\"app-head nw pt18 ml15 mr20\"><div class=\"dib vat fs150 lh120 o60\">{TXT_ITITLE}</div></div><div class=\"ml15 panelheight feather fs95 lh150\"><div id=\"cfg-warn\" class=\"panelheight pr20 pb16\"></div></div><div id=\"cfg-proxy\" class=\"hide\"></div></div>"
+        "HTML": "<div class=\"w75p  dib vat\" id=\"cfg-panel-left\"><div id=\"a-head\" class=\"app-head nw pt18 pl20 pr20 lh160\"><div class=\"fr w20p fs95\"><div class=\"fi-magnifying-glass blue o50 fs95\" style=\"position: absolute; z-index: +1; left: 8px;top: 0.2em;\"></div><input type=\"text\" id=\"app-search\" class=\"ui-search w100p ml0 mr0 mt0 pr10\" placeholder=\"{PLC_SEARCH}\" style=\"background-image:none;padding-right:19px!important;\"><span class=\"fi-x fs80 dib vat pt2 blue ui-search-clear\" style=\"margin-left:-19px!important;\"onclick=\"$(this).siblings('input:eq(0)').val('').blur()\"></span></div><div id=\"app-title\" class=\"dib vat fs160 lh120 ell mr20\" style=\"max-width:40%\"></div><div class=\"nw mr10 dib vat tac w40p\" ><button id=\"btn-reload\" class=\"w40 mr2\" title=\"{PLC_RELOAD}\"><span class=\"fi-loop\"></span></button><button id=\"btn-cfg-save\" class=\"green mr2\" disabled>{BTN_SAVE}</button></div></div><div class=\"panelheight feather\"><div id=\"jseditor\" class=\"panelheight pl20 pr20 pt10 pb16\"></div></div></div><div class=\"w25p dib vat\"><div id=\"a-head\" class=\"app-head nw pt18 ml15 mr20\"><div class=\"dib vat fs150 lh120 xfray o70\">{TXT_ITITLE}</div></div><div class=\"ml15 panelheight feather fs95 lh150\"><div id=\"cfg-warn\" class=\"panelheight pr20 pb16\"></div></div><div id=\"cfg-proxy\" class=\"hide\"></div></div>"
       },
       "$view": {
         "lang": {},
@@ -1412,6 +1414,7 @@
           "search": "",
           "selection": [],
           "task": {
+            "search": "",
             "filter": "",
             "list": []
           }
@@ -1493,37 +1496,41 @@
             ]
           },
           "#btn-newdb": {
-            "bind": "function (d,v,$o) {\n\t\t\tif (v==null) return;\n\t\t\tvar that = this;\n\t\t\tif ($o.data('modal')) that.my.modal('#btn-newdb', true);\n\t\t\telse {\n\t\t\t\tif (that.Modals.head) that.Modals.head.modal(true);\n\t\t\t\tthat.Modals.head = $o;\n\t\t\t\tthat.my.modal('#btn-newdb',{\n\t\t\t\t\tmanifest:that.Pho('NewDB'),\n\t\t\t\t\twidth:350,\n\t\t\t\t\tdata:{},\n\t\t\t\t\talign:'top:102%;left:0;',\n\t\t\t\t\tnose:'top',\n\t\t\t\t\tcss:'xgray',\n\t\t\t\t\tscreen:false,\n\t\t\t\t\tesc:true,\n\t\t\t\t})\n\t\t\t\t.always(function(){\n\t\t\t\t\tthat.Modals.head = null;\n\t\t\t\t});\t\t\t\t\n\t\t\t}\n\t\t}"
+            "bind": "function (d,v,$o) {\n\t\t\tif (v==null) return;\n\t\t\tvar that = this;\n\t\t\tif ($o.data('modal')) that.my.modal('#btn-newdb', true);\n\t\t\telse {\n\t\t\t\tif (that.Modals.head) that.Modals.head.modal(true);\n\t\t\t\tthat.Modals.head = $o;\n\t\t\t\tthat.my.modal('#btn-newdb',{\n\t\t\t\t\tmanifest:that.Pho('NewDB'),\n\t\t\t\t\twidth:350,\n\t\t\t\t\tdata:{},\n\t\t\t\t\talign:'top:102%;left:0;',\n\t\t\t\t\tnose:'top',\n\t\t\t\t\tcss:'xgray',\n\t\t\t\t\tscreen:false,\n\t\t\t\t\tesc:true,\n\t\t\t\t})\n\t\t\t\t.always(function(){\n\t\t\t\t\tthat.Modals.head = null;\n\t\t\t\t});\t\t\t\t\n\t\t\t}\n\t\t}",
+            "css": {
+              ":disabled": "function (d) {\n\t\t\t\treturn !cw.me();\n\t\t\t}"
+            },
+            "listen": {
+              "userCtx": "function (d,v) {this.my.check('#btn-newdb');}"
+            }
           },
           "#btn-compact": {
             "bind": "function (d,v,$o) {\n\t\t\tif (v==null) return;\n\t\t\tvar that = this;\n\t\t\tif ($o.data('modal')) that.my.modal('#btn-compact', true);\n\t\t\telse {\n\t\t\t\tif (that.Modals.head) that.Modals.head.modal(true);\n\t\t\t\tthat.Modals.head = $o;\n\t\t\t\tthat.my.modal('#btn-compact',{\n\t\t\t\t\tmanifest:that.Pho('Compact'),\n\t\t\t\t\twidth:350,\n\t\t\t\t\tdata:{ selection:d.selection.slice(0) },\n\t\t\t\t\talign:'top:102%;left:0;',\n\t\t\t\t\tnose:'top',\n\t\t\t\t\tcss:'xgray',\n\t\t\t\t\tscreen:false,\n\t\t\t\t\tesc:true,\n\t\t\t\t})\n\t\t\t\t.always(function(){\n\t\t\t\t\tthat.Modals.head = null;\n\t\t\t\t});\n\t\t\t}\n\t\t}",
             "css": {
-              ":disabled": "function (d) {\n\t\t\t\treturn !d.selection.length || !this.List.map(function(e){return e.name}).intersect(d.selection).length;\n\t\t\t}"
+              ":disabled": "function (d) {\n\t\t\t\treturn !cw.me() || !d.selection.length || !this.List.map(function(e){return e.name}).intersect(d.selection).length;\n\t\t\t}"
             },
             "watch": [
               "#view-hasselection"
-            ]
+            ],
+            "listen": {
+              "userCtx": "function (d,v) {this.my.check('#btn-compact');}"
+            }
           },
           "#btn-deldb": {
             "bind": "function (d,v,$o) {\n\t\t\tif (v==null) return;\n\t\t\tvar that = this;\n\t\t\tif ($o.data('modal')) that.my.modal('#btn-deldb', true);\n\t\t\telse {\n\t\t\t\tif (that.Modals.head) that.Modals.head.modal(true);\n\t\t\t\tthat.Modals.head = $o;\n\t\t\t\t$.my.modal({\n\t\t\t\t\tmanifest:that.Pho('DelDB'),\n\t\t\t\t\twidth:350,\n\t\t\t\t\tdata:{ dbs:d.selection.slice(0) },\n\t\t\t\t\tcss:'xgray p20',\n\t\t\t\t\tesc:true,\n\t\t\t\t\tenter:false\n\t\t\t\t})\n\t\t\t\t.always(function(){\n\t\t\t\t\tthat.Modals.head = null;\n\t\t\t\t});\n\t\t\t}\n\t\t}",
             "css": {
-              ":disabled": "function (d) {\n\t\t\t\treturn !d.selection.length || !this.List.map(function(e){return e.name}).intersect(d.selection).length;\n\t\t\t}"
+              ":disabled": "function (d) {\n\t\t\t\treturn !cw.me() || !d.selection.length || !this.List.map(function(e){return e.name}).intersect(d.selection).length;\n\t\t\t}"
             },
             "watch": [
               "#view-hasselection"
-            ]
+            ],
+            "listen": {
+              "userCtx": "function (d,v) {this.my.check('#btn-deldb');}"
+            }
           },
           "#task-filter": {
             "init": "function ($o) {\n\t\t\t$o.tags($.extend(true, {}, this.lang.TAGS_TASK_TYPE, {tagshim:'', groupshim:''}));\n\t\t}",
             "bind": "task.filter"
-          },
-          "#task-list": {
-            "delay": 50,
-            "init": "function ($o) {\n\t\t\tvar that = this,\n\t\t\t\t\tt = that.TSync,\n\t\t\t\t\td = that.data;\n\t\t\t$o.list({\n\t\t\t\tdata:that.Tasks,\n\t\t\t\tdelay:0,\n\t\t\t\tchunk:100,\n\t\t\t\tsortBy:null,\n\t\t\t\tid: function(e){return e.pid || e._id;},\n\t\t\t\thash:function(e) {\n\t\t\t\t\treturn cw.lib.sdbm([\n\t\t\t\t\t\te.pid, \n\t\t\t\t\t\te.updated_on, \n\t\t\t\t\t\te.type,\n\t\t\t\t\t\te._progress,\n\t\t\t\t\t\te._started, \n\t\t\t\t\t\te._desc\n\t\t\t\t\t]);\n\t\t\t\t},\n\t\t\t\ttemplate: function(e){  return t(e); }\n\t\t\t});\n\t\t\t$o.niceScroll({\n\t\t\t\tcursorcolor:'#234',\n\t\t\t\tcursoropacitymin:0.07,\n\t\t\t\tcursoropacitymax:0.4,\n\t\t\t});\n\t\t}",
-            "bind": "function (d,v,$o) {\n\t\t\tif (v!=null) return;\n\t\t\tif (!d.task.search && d.task.filter == '') d.task.list = this.Tasks;\n\t\t\telse {\n\t\t\t\tvar a = !(d.task.filter+'')?this.Tasks:this.Tasks.filter(function(row){\n\t\t\t\t\treturn row.type.indexOf(d.task.filter+'') != -1;\n\t\t\t\t});\n\t\t\t\t\n\t\t\t\td.task.list = a;\n\t\t\t}\n\t\t\tthis.my.find('#task-list').list('data', d.task.list);\n\t\t}",
-            "watch": [
-              "#task-filter"
-            ]
           },
           "#task-cols": {
             "bind": "function (d,v) {\n\t\t\treturn this.lang.TXT_TASKVIEW(d.task.list.length, this.Tasks.length)\n\t\t}",
@@ -1531,6 +1538,31 @@
               "#task-filter",
               "#task-list"
             ]
+          },
+          "#task-search": {
+            "delay": 150,
+            "bind": "task.search",
+            "css": {
+              "my-search": "new RegExp(/^.{2,}$/)"
+            }
+          },
+          "#task-list": {
+            "delay": 50,
+            "init": "function ($o) {\n\t\t\tvar that = this,\n\t\t\t\t\tt = that.TSync,\n\t\t\t\t\td = that.data;\n\t\t\t$o.list({\n\t\t\t\tdata:that.Tasks,\n\t\t\t\tdelay:0,\n\t\t\t\tchunk:100,\n\t\t\t\tsortBy:null,\n\t\t\t\tid: function(e){return e.pid || e._id;},\n\t\t\t\thash:function(e) {\n\t\t\t\t\treturn cw.lib.sdbm([\n\t\t\t\t\t\te.pid, \n\t\t\t\t\t\t//e.updated_on, \n\t\t\t\t\t\te.type,\n\t\t\t\t\t\te._progress,\n\t\t\t\t\t\te._started, \n\t\t\t\t\t\te._desc\n\t\t\t\t\t]);\n\t\t\t\t},\n\t\t\t\ttemplate: function(e){  return t(e); }\n\t\t\t});\n\t\t\t$o.niceScroll({\n\t\t\t\tcursorcolor:'#234',\n\t\t\t\tcursoropacitymin:0.07,\n\t\t\t\tcursoropacitymax:0.4,\n\t\t\t});\n\t\t}",
+            "bind": "function (d,v,$o) {\n\t\t\tif (v!=null) return;\n\t\t\tif (!d.task.search.from(1) && d.task.filter == '') d.task.list = this.Tasks;\n\t\t\telse {\n\t\t\t\tvar a = !(d.task.filter+'')?this.Tasks:this.Tasks.filter(function(row){\n\t\t\t\t\treturn (row.type+'').indexOf(d.task.filter+'') != -1;\n\t\t\t\t});\n\n\t\t\t\tif (d.task.search.length>1) {\n\t\t\t\t\tvar re = new RegExp(\n\t\t\t\t\t\td.task.search.toLowerCase()\n\t\t\t\t\t\t.split(' ').compact(true)\n\t\t\t\t\t\t.map(function(t){return t.escapeRegExp()})\n\t\t\t\t\t\t.join('|')\n\t\t\t\t\t);\n\t\t\t\t\ta = a.filter(function(e){ return re.test(e._index) });\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\td.task.list = a;\n\t\t\t}\n\t\t\tthis.my.find('#task-list').list('data', d.task.list);\n\t\t}",
+            "watch": [
+              "#task-filter",
+              "#task-search"
+            ]
+          },
+          "#btn-newsync": {
+            "bind": "function (d,v) {\n\t\t\tif (v==null) return;\n\t\t\tcw.lib.note('Not implemented yet');\n\t\t}",
+            "css": {
+              ":disabled": "function (d,v) {return !cw.me();}"
+            },
+            "listen": {
+              "userCtx": "function (d,v) {this.my.check('#btn-newsync');}"
+            }
           }
         },
         "die": "function ($o) {\n\t\t// Unmount niceScroll\n\t\tvar f = $o.find('#db-list').getNiceScroll;\n\t\tif (typeof f == 'function') f().remove();\n\t\tvar f = $o.find('#task-list').getNiceScroll;\n\t\tif (typeof f == 'function') f().remove();\n\t\t\n\t\t// stop tasks loop\n\t\tif (this.TaskLoop) this.TaskLoop.cancel();\n\t\t\n\t}",
@@ -1563,9 +1595,9 @@
           " .w100p-338": "width:calc(100% - 338px);",
           " .w100p-310": "width:calc(100% - 311px);"
         },
-        "HTML": "<div class=\"w60p  dib vat\"><div id=\"a-head\" class=\"app-head nw pt18 pl20 pr20 lh160\"><div class=\"fr w25p fs95\" style=\"max-width:200px\"><div class=\"fi-magnifying-glass blue o50 fs95\" style=\"position: absolute; z-index: +1; left: 8px;top: 0.2em;\"></div><input type=\"text\" id=\"db-search\" class=\"ui-search w100p ml0 mr0 mt0 pr10\" placeholder=\"{PLC_SEARCH}\" style=\"background-image:none;padding-right:19px!important;\"><span class=\"fi-x fs80 dib vat pt2 blue ui-search-clear\" style=\"margin-left:-19px!important;\"onclick=\"$(this).siblings('input:eq(0)').val('').blur()\"></span></div><div class=\"nw dib vat w75p pr10\"><button id=\"btn-reload\" class=\"w40 mr2\" title=\"{TIP_RELOAD}\"><span class=\"fi-loop\"></span></button><button id=\"btn-newdb\" class=\"green mr2\">{BTN_NEWDB}</button><span id=\"view-hasselection\"><button id=\"btn-compact\" class=\"mr2\" disabled>{BTN_COMPACT}</button><button id=\"btn-deldb\" class=\"mr2 red\" disabled>{BTN_DELDB}</button></span></div></div><div id=\"db-panel\" class=\"panelheight-32 br2 mt16 ml20 mr20 bas\"><div class=\"h30 bg-gray7 bbs lh160 pt1 nw oh ell\"><div class=\"w100p-310 dib vat nw oh ell\"><span id=\"btn-view-dir\" class=\"dib pl8 pr6 mr2 vat cp o50 fs80 pt2 pseudolink tdn h30\"></span><span id=\"view-links\" class=\"gray hide\"></span><div id=\"view-cols\" class=\"dib vat pr8 nw xgray\"></div><div id=\"btn-select\" class=\"pseudolink tdn dib vat\"></div></div><div class=\"w310 dib gray fs90\"><div class=\"w80 dib tar pr6\">{H_DOCS}</div><div class=\"w70 dib pl7\">{H_DELDOCS}</div><div class=\"w80 dib tar pr7\">{H_SEQ}</div><div class=\"w80 dib tar pr7\">{H_SIZE}</div></div></div><section id=\"db-list\" class=\"panelheight-64 xgray lh170\"></section></div><div id=\"db-proxy\" class=\"hide\"></div></div><div class=\"w40p dib vat\"><div id=\"a-head\" class=\"app-head nw pt18 ml10 mr20 mb16\"><div class=\"dib vat fs160 lh120 ell\">Tasks</div></div><div id=\"task-panel\" class=\"panelheight-32 br2 mt16 ml10 mr20 bas\"><div><div class=\"h30 bg-gray7 bbs lh170\"><div class=\"fr\"><span id=\"task-filter\" class=\"dib fs95 pt2 pl4\"></span></div><div id=\"task-cols\" class=\"dib vat pl8 nw xgray pt1\"></div></div><section id=\"task-list\" class=\"panelheight-64 xgray lh170\"></section></div></div><div id=\"status-proxy\" class=\"hide\"></div></div>",
-        "GetTasks": "function (redraw) {\n\tvar that = this,\n\t\t\td = that.data,\n\t\t\tall = that.All,\n\t\t\tl = that.lang,\n\t\t\tes = function(s){return (s+'').escapeHTML()},\n\t\t\t_trunc = function (s, chars) {return es((s+'').truncate(chars || 20,'middle','…'));},\n\t\t\tspt = '<span title=\"{2}\">{1}</span>',\n\t\t\tpi = $.Deferred();\n\t\n\tif (!that.my.indom() || that.my.root().hasClass('hide')) return pi.resolve().promise();\n\t\n\tthat.Req({url:['_active_tasks']})\n\t.then(function(res){\n\t\tthat.Tasks.length = 0;\n\t\t\n\t\t// preprocess tasks \n\t\tres.forEach(function(row){\n\t\t\t\n\t\t\t// clean task type\n\t\t\tvar ts = row.type.replace(/_/g,' ')\n\t\t\t\t.replace(/database/gi,'DB')\n\t\t\t\t.replace(/compaction/gi,'compact')\n\t\t\t\t.replace(/replication/gi,'');\n\t\t\tts = ts.compact();\n\t\t\trow._type = es(ts.to(1).toUpperCase()+ts.from(1));\n\t\t\t\n\t\t\t// clean pid\n\t\t\trow._pid = es(row.pid);\n\t\t\t\n\t\t\t// task start time\n\t\t\tvar stamp = row.started_on;\n\t\t\tif (stamp) {\n\t\t\t\tvar dt = Date.create(+stamp);\n\t\t\t\tif (!dt.isThisYear()) row._start = dt.format('{d} {Mon} {yyyy}');\n\t\t\t\telse if (!dt.isToday()) row._start = dt.format('{d} {Mon}, {H}:{mm}');\n\t\t\t\telse row._start = dt.format('{H}:{mm}:{ss}');\n\t\t\t}\n\t\t\telse row._start = '???';\n\t\t\t\n\t\t\t// progress %\n\t\t\trow._progress = Object.isNumber(row.progress)?(row.progress.clamp(0,100)|0)+'%':'???';\n\t\t\t\n\t\t\tif (row.source && row.target) {\n\t\t\t\trow._desc = _trim(row.source, 30)+'\\u00a0➝ '+_trim(row.target, 30);\n\t\t\t\tif (row.doc_id) row._desc = '<a class=\"tdn\" href=\"#_replicator/'+es(row.doc_id)+'\">'+row._desc+'</a>';\n\t\t\t}\n\t\t\telse if (/compaction/.test(row.type)) {\n\t\t\t\trow._desc = _trim(row.database);\n\t\t\t}\n\t\t\telse row._desc = row._pid;\n\t\t});\n\t\t\n\t\t// sort, make old appear at bottom,\n\t\t// and push to this.Tasks\n\t\tres.sortBy('started_on', true)\n\t\t.forEach(function(row){that.Tasks.push(row)});\n\t\t\n\t\tif (redraw) that.my.recalc('#task-list');\n\t\tpi.resolve(that.Tasks);\n\t})\n\t.fail(function(code, err, msg){\n\t\t// Swallow fail\n\t\tpi.resolve(that.Tasks);\n\t});\n\t\n\treturn pi.promise();\n\t\n\t\n\t// - - - - - - - \n\t\n\tfunction _trim(path, chars){\n\t\t\n\t\tif (!Object.isString(path) || !/^http[s]?:\\//.test(path)) return spt.assign(_trunc(path+'', chars), es(path+''));\n\t\t\n\t\tvar u = new URL(path),\n\t\t\t\tp = [],\n\t\t\t\ttico = '<span class=\"ml3 fs95 o40 dib vat mt1 mb-1 fi-{1}\"></span>',\n\t\t\t\tlocal = u.hostname =='127.0.0.1' || u.hostname == 'localhost';\n\t\t\n\t\tvar tpath = !local?u.hostname+u.pathname:u.pathname.replace(/^\\/|\\/$/g,'');\n\t\tp.push(spt.assign(_trunc(tpath, chars), es(tpath)));\n\t\t\n\t\tif (!local) {\n\t\t\tp.push(tico.assign(u.protocol=='https:'?'lock':'unlock red1'));\n\t\t}\n\t\tif (u.username || u.password) p.push(tico.assign('torso'));\n\n\t\t\n\t\treturn p.join('');\n\t\t\n\t}\n}",
-        "TSync": "function (e) {\n\t// renders row\n\tvar that = this,\n\t\t\td = that.data;\n\t\n\tvar t = [\n\t\t'<div class=\"view-row pl8 pr8\">',\n\t\t'<div class=\"fr\">{_progress}</div> ',\n\t\t\t'{_type} {_desc}',\n\t\t'</div>'\n\t].join('');\n\t\n\treturn t.assign(e);\n\t\n}"
+        "HTML": "<div class=\"w60p  dib vat\"><div id=\"a-head\" class=\"app-head nw pt18 pl20 pr20 lh160\"><div class=\"fr w25p fs95\" style=\"max-width:200px\"><div class=\"fi-magnifying-glass blue o50 fs95\" style=\"position: absolute; z-index: +1; left: 8px;top: 0.2em;\"></div><input type=\"text\" id=\"db-search\" class=\"ui-search w100p ml0 mr0 mt0 pr10\" placeholder=\"{PLC_SEARCH}\" style=\"background-image:none;padding-right:19px!important;\"><span class=\"fi-x fs80 dib vat pt2 blue ui-search-clear\" style=\"margin-left:-19px!important;\"onclick=\"$(this).siblings('input:eq(0)').val('').blur()\"></span></div><div class=\"nw dib vat w75p pr10\"><button id=\"btn-reload\" class=\"w40 mr2\" title=\"{TIP_RELOAD}\"><span class=\"fi-loop\"></span></button><button id=\"btn-newdb\" class=\"green mr2\">{BTN_NEWDB}</button><span id=\"view-hasselection\"><button id=\"btn-compact\" class=\"mr2\" disabled>{BTN_COMPACT}</button><button id=\"btn-deldb\" class=\"mr2 red\" disabled>{BTN_DELDB}</button></span></div></div><div id=\"db-panel\" class=\"panelheight-32 br2 mt16 ml20 mr20 bas\"><div class=\"h30 bg-gray7 bbs lh160 pt1 nw oh ell\"><div class=\"w100p-310 dib vat nw oh ell\"><span id=\"btn-view-dir\" class=\"dib pl8 pr6 mr2 vat cp o50 fs80 pt2 pseudolink tdn h30\"></span><span id=\"view-links\" class=\"gray hide\"></span><div id=\"view-cols\" class=\"dib vat pr8 nw xgray\"></div><div id=\"btn-select\" class=\"pseudolink tdn dib vat\"></div></div><div class=\"w310 dib gray fs90\"><div class=\"w80 dib tar pr6\">{H_DOCS}</div><div class=\"w70 dib pl7\">{H_DELDOCS}</div><div class=\"w80 dib tar pr7\">{H_SEQ}</div><div class=\"w80 dib tar pr7\">{H_SIZE}</div></div></div><section id=\"db-list\" class=\"panelheight-64 xgray lh170\"></section></div><div id=\"db-proxy\" class=\"hide\"></div></div><div class=\"w40p dib vat\"><div id=\"a-head\" class=\"app-head nw pt18 pr20 mb16 tac\"><div class=\"fr w30p fs95 tal\" style=\"max-width:200px\"><div class=\"fi-magnifying-glass blue o50 fs95\" style=\"position: absolute; z-index: +1; left: 8px;top: 0.2em;\"></div><input type=\"text\" id=\"task-search\" class=\"ui-search w100p ml0 mr0 mt0 pr10\" placeholder=\"{PLC_SEARCH}\" style=\"background-image:none;padding-right:19px!important;\"><span class=\"fi-x fs80 dib vat pt2 blue ui-search-clear\" style=\"margin-left:-19px!important;\"onclick=\"$(this).siblings('input:eq(0)').val('').blur()\"></span></div><div class=\"fl tal fs160 lh120 ell xgray o70\">{TXT_TASK_TITLE}</div><div class=\"w40p dib tac\"><button id=\"btn-newsync\" class=\"mr2\">{BTN_TASK_NEWSYNC}</button></div></div><div id=\"task-panel\" class=\"panelheight-32 br2 mt16 mr20 bas\"><div><div class=\"h30 bg-gray7 bbs lh170\"><div class=\"fr\"><span id=\"task-filter\" class=\"dib fs90 pt2 pl4\"></span></div><div id=\"task-cols\" class=\"dib vat pl8 nw xgray pt1\"></div></div><section id=\"task-list\" class=\"panelheight-64 xgray lh170\"></section></div></div><div id=\"status-proxy\" class=\"hide\"></div></div>",
+        "GetTasks": "function (redraw) {\n\tvar that = this,\n\t\t\td = that.data,\n\t\t\tall = that.All,\n\t\t\tl = that.lang,\n\t\t\tes = function(s){return (s+'').escapeHTML()},\n\t\t\t_trunc = function (s, chars) {return es((s+'').truncate(chars || 20,'middle','…'));},\n\t\t\tspt = '<span title=\"{2}\">{1}</span>',\n\t\t\tnw = '<nobr>{1}</nobr>',\n\t\t\tpi = $.Deferred();\n\t\n\tif (!that.my.indom() || that.my.root().hasClass('hide')) return pi.resolve().promise();\n\t\n\tthat.Req({url:['_active_tasks']})\n\t.then(function(res0){\n\t\tthat.Tasks.length = 0;\n\t\t\n\t\tvar res = res0.concat(that.TaskMock||[]);\n\t\t\n\t\t// preprocess tasks \n\t\tres.forEach(function(row){\n\t\t\t\n\t\t\t// clean task type\n\t\t\tvar ts = row.type.replace(/_/g,' ')\n\t\t\t\t.replace(/database/gi,'DB')\n\t\t\t\t.replace(/compaction/gi,'compact')\n\t\t\t\t.replace(/replication/gi,'');\n\t\t\tts = ts.compact();\n\t\t\tts = ts?ts+':':'';\n\t\t\trow._type = es(ts.to(1).toUpperCase()+(ts||'').from(1));\n\t\t\t\n\t\t\t// full text index\n\t\t\trow._index = JSON.stringify(row).toLowerCase().replace(/[\",\\{\\}\\[\\]]/g,' ').compact();\n\t\t\t\n\t\t\t// clean pid\n\t\t\trow._pid = '‹<span class=\"fs95\">'+row.pid.replace(/[<>]/g,'')+'</span>›';\n\t\t\trow._pidsafe = es(row.pid);\n\t\t\t\n\t\t\t// task start time\n\t\t\tvar stamp = row.started_on;\n\t\t\tif (stamp) {\n\t\t\t\tvar dt = Date.create(+stamp);\n\t\t\t\tif (!dt.isThisYear()) row._start = dt.format('{d} {Mon} {yyyy}');\n\t\t\t\telse if (!dt.isToday()) row._start = dt.format('{d} {Mon}, {H}:{mm}');\n\t\t\t\telse row._start = dt.format('{H}:{mm}:{ss}');\n\t\t\t}\n\t\t\telse row._start = '???';\n\t\t\t\n\t\t\t// progress %\n\t\t\trow._progress = Object.isNumber(row.progress)?(row.progress.clamp(0,100)|0)+'%':'???';\n\t\t\t\n\t\t\t// description\n\t\t\tif (row.source && row.target) {\n\t\t\t\trow._desc = nw.assign(_trim(row.source, 30)) + ' ➝\\u00a0' + nw.assign(_trim(row.target, 30));\n\t\t\t\tif (row.doc_id) row._desc = '<a class=\"tdn\" href=\"#_replicator/'+es(row.doc_id)+'\">'+row._desc+'</a>';\n\t\t\t}\n\t\t\telse if (/compaction/.test(row.type)) {\n\t\t\t\trow._desc = nw.assign(_trim(row.database));\n\t\t\t}\n\t\t\telse row._desc = row._pid;\n\t\t\t\n\t\t});\n\t\t\n\t\t// sort, make old appear at bottom,\n\t\t// and push to this.Tasks\n\t\tres.sortBy('started_on', true)\n\t\t.forEach(function(row){that.Tasks.push(row)});\n\t\t\n\t\tif (redraw) that.my.recalc('#task-list');\n\t\tpi.resolve(that.Tasks);\n\t})\n\t.fail(function(code, err, msg){\n\t\t// Swallow fail\n\t\tpi.resolve(that.Tasks);\n\t});\n\t\n\treturn pi.promise();\n\t\n\t\n\t// - - - - - - - \n\t\n\tfunction _trim(path, chars){\n\t\t\n\t\tif (!Object.isString(path) || !/^http[s]?:\\//.test(path)) return spt.assign(_trunc(path+'', chars), es(path+''));\n\t\t\n\t\tvar u = new URL(path),\n\t\t\t\tp = [],\n\t\t\t\ttico = '<span class=\"ml3 fs95 o40 dib vat mt1 mb-1 fi-{1}\"></span>',\n\t\t\t\tlocal = u.hostname =='127.0.0.1' || u.hostname == 'localhost';\n\t\t\n\t\tvar tpath = !local?u.hostname+u.pathname:u.pathname.replace(/^\\/|\\/$/g,'');\n\t\tp.push(spt.assign(_trunc(tpath, chars), es(path)));\n\t\t\n\t\tif (!local) {\n\t\t\tp.push(tico.assign(u.protocol=='https:'?'lock':'unlock red1'));\n\t\t}\n\t\tif (u.username || u.password) p.push(tico.assign('torso'));\n\n\t\t\n\t\treturn p.join('');\n\t\t\n\t}\n}",
+        "TSync": "function (e) {\n\t// renders row\n\tvar that = this,\n\t\t\td = that.data;\n\t\n\tvar t = [\n\t\t'<div class=\"view-row pl8 pr8\">',\n\t\t'<div class=\"dib w20p ell fs95 gray vat\" title=\"{_pidsafe}\">{_pid}</div>',\n\t\t\t'<div class=\"dib w70p ell pr10 vat lh140 pt2 pb2\">{_type} {_desc}</div>',\n\t\t\t'<div class=\"dib w10p vat tar\">{_progress}</div>',\n\t\t'</div>'\n\t].join('');\n\t\n\treturn t.assign(e);\n\t\n}"
       },
       "files": {
         "favicon.png": {
@@ -1574,7 +1606,7 @@
           "data": "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAAA6NJREFUeAHtWstOFEEUvT3IK6BAJAQfgbAAgyREV+wJhLBCAl/BlgU7FuwJG34CEsKakLAkoqAJJBJYiEJAeagghIcw3Z7b1T0zPdWD7Twara6bnOl63K7uc+6tGqYKg/JglmWVYphHwOM01KD+wAf30ca4B1jABXCedv2J+g/guwO3vI/6FwdfDcP4hXLWZgS9EySZYDPQkoImlJ8AD4G7MBbvG7AHfAY+AVsOuPwRArGQGU0SAERr4f3SwQtcnwFMnCP2PxoLswq8BhaBNxCFs802A4RfoeQS5utT0aXs5w2YvQfeAu9YAE6j3CweJzo5ITo+xqzFVHXLfD2H2JeXAheY6m55ctL7zKEhouJigZISolIsK2VlROXlRBUVRJWVyEEkYVWVQHU1EYPbczBehIKZaWK2YbrtYw1KBxPP1Xj8qyuBvxmLRaupEaivxzKMdbihQaCo6I8j+QvAUdrdJdrZSWIP68wNZ88/ZtfXRAcHAhsbyZdjYZqwRjc3CzQ2imxKetglWYDRUaLDQ3w55T4z0p4VbpWF2dwUcJ9cV0c0NubW7KssAKupqvlwi6nKNSgvLUBQpVT10xmgamSD8tIZEFQpVf10Bqga2aC8dAYEVUpVP50BqkY2KC+dAUGVUtVPZ4CqkQ3KK/IZIG+J9fUl9wN5p5bN3R/Mpn50hDMbnE2cnoqxgn7yFjhvZNbinCbmxMlwznFyrae8gyxAb29Kd56KLNz6OtHcnHeT0m/4lhainh6i1tYkcT+/PLXJAuRpYM8wHLG2NoH5eaKZGU93ojIwQNTdnaiGUQhHgFQmTNBN5dT2wUGirq7UllDK+TkaC+VVC/MQKQOu+/vF3OMoMTh9069B3oXvwbmdgTkd6+ykWHt7kLsSPubqKpkLC2Tx4cbZWXIhTnikFfh5vFjzeuN3ddqKZ2c9N0oC2IeXHpccKjhhsra2KI7Fz+zooKLhYTJ4db/FLHxbxMfHyVpausUrf12h/R3AhG5GRsjiaGYw7rN9QiLPrxGaADZnzoaJiQz0SfTBJ0wLVwAwsxYXyVxZkTiay8t2n9RR4IbQBWA+5tSURMucnpbawmi4EwGstTWJm1+b5FSAhjsRoAA8sh5SC5C1dIrcqDNAkUBmTSPyP4b0FMg6dxS5MfIZIP0c/sD/ZqqwPd/e9rCLfAZoATz5EMGKzoAIBt1DWWeAR44IVnQGRDDoHso6AzxyRLCi9wMiGHQPZb0GeOSIYOU3UUIkVV8IpZcAAAAASUVORK5CYII="
         }
       },
-      "stamp": 1504746477507
+      "stamp": 1504752281328
     },
     "cw-Sys-JSON": {
       "id": "cw.Sys.JSON",
