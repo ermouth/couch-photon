@@ -1,5 +1,5 @@
 # couch-photon
-CouchDB admin tool, modernized Futon. Beta, about 99% of Futon features coverage. 
+CouchDB admin tool, modernized Futon. Beta, but covers 100% of Futon features.
 
 ## Install
 Download `photon.json`, and use one of the following ways:
