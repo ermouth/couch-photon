@@ -1,4 +1,4 @@
-# couch-photon
+# <img align="right" src="http://jquerymy.com/kod/photon-github.png" /> couch-photon
 Futon-inspired CouchDB admin panel. Covers 100% of Futon and most of Fauxton features.
 
 ## Additional features
