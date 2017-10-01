@@ -12,7 +12,30 @@ Futon-inspired CouchDB admin panel. Covers 100% of Futon and most of Fauxton fea
 
 See screencast at https://youtu.be/MHc6tozNhWU
 
-## Install
+## Installation is replication
+__For CouchDB 1.6.1 and earlier.__ Create new doc in your `_replicator` DB and copy-paste below JSON into it. Save – and you are done.
+```json
+{
+  "_id": "Photon",
+  "source": "https://cloudwall.smileupps.com/photon/",
+  "target": "photon",
+  "create_target":true,
+  "doc_ids":["_design/photon"],
+  "user_ctx":{"name":"admin", "roles":["_admin"]}
+}
+```
+__For CouchDB 2.x__ JSON is bit different (see below). You need to insert credentials since 2.x does not understand `user_ctx` param.
+```json
+{
+  "_id": "Photon",
+  "source": "https://cloudwall.smileupps.com/photon/",
+  "target": "http://admin:__________@localhost:5984/photon",
+  "create_target":true,
+  "doc_ids":["_design/photon"]
+}
+```
+
+## Another way to install
 Download `photon.json` from [Github](https://raw.githubusercontent.com/ermouth/couch-photon/master/photon.json) or [AWS S3 CDN](https://s3-eu-west-1.amazonaws.com/cdn.cloudwall.me/photon/photon.json) and use one of the following ways:
 
 a) Open JSON in any text editor. Create a doc in any CouchDB bucket, using Futon or Fauxton. Copy-paste JSON text into it. Save. Run `index.html`.
