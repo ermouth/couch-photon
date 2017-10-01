@@ -13,7 +13,7 @@ Futon-inspired CouchDB admin panel. Covers 100% of Futon and most of Fauxton fea
 See screencast at https://youtu.be/MHc6tozNhWU
 
 ## Installation is replication
-__For CouchDB 1.6.1 and earlier.__ Create new doc in your `_replicator` DB and copy-paste below JSON into it. Save – and you are done.
+__For CouchDB 1.6.1 and earlier.__ Create new doc in your `_replicator` DB and copy-paste below JSON into it. Save – and you are done. Go to newly created `photon` DB, open `_design/photon` doc and run `index.html`.
 ```json
 {
   "_id": "Photon",
