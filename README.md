@@ -19,7 +19,34 @@ a) Open JSON in any text editor. Create a doc in any CouchDB bucket, using Futon
 
 b) `curl -H 'Content-Type: application/json' -X PUT http://yourdomain.com:5984/somedb/_design/photon -d @photon.json`. Run `index.html`.
 
-Next time you can upgrade Photon directly from Photon, clicking rightmost button on navbar and checking for updates at CDN.
+Next time you can upgrade Photon directly from Photon itself. Just click rightmost button at the navbar and check for updates.
+
+## Installation using replication
+You can install Photon using native CouchDB replication. Since DB you will replicate from is of very limited capacity, please, only replicate once, do not make sync continuous.
+
+__For CouchDB 1.6.1 and earlier.__ Create new doc in your `_replicator` DB and copy-paste below JSON into it. Save – and you are done.
+```json
+{
+  "_id": "Photon",
+  "source": "https://cloudwall.smileupps.com/photon/",
+  "target": "photon",
+  "create_target":true,
+  "doc_ids":["_design/photon"],
+  "user_ctx":{"name":"admin", "roles":["_admin"]}
+}
+```
+To make sure `user_ctx` section works properly, you must have CouchDB proxy auth turned on. By default it’s active in CouchDB 1.x.
+
+__For CouchDB 2.x__ JSON is bit different (see below). You need to insert credentials since 2.x does not understand `user_ctx` param.
+```json
+{
+  "_id": "Photon",
+  "source": "https://cloudwall.smileupps.com/photon/",
+  "target": "http://admin:__________@localhost:5984/photon",
+  "create_target":true,
+  "doc_ids":["_design/photon"]
+}
+```
 
 ## FAQ
 
