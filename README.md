@@ -25,7 +25,7 @@ Next time you can upgrade Photon directly from Photon itself. Just click rightmo
 ## Installation using replication
 You can install Photon using native CouchDB replication. Since DB you will replicate from is of very limited capacity, please, only replicate once, do not make sync continuous.
 
-__For CouchDB 1.6.1 and earlier.__ Create new doc in your `_replicator` DB and copy-paste below JSON into it. Save – and you are done.
+__For CouchDB 1.7.1 and earlier.__ Create new doc in your `_replicator` DB and copy-paste below JSON into it. Save – and you are done.
 ```json
 {
   "_id": "Photon",
