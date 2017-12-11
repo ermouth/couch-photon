@@ -49,6 +49,19 @@ __For CouchDB 2.x__ JSON is bit different (see below). You need to insert creden
 }
 ```
 
+## Dedicated host
+
+Photon can run as a couchapp from a dedicated domain. To set up Photon for a dedicated host, 
+you only need to configure CouchDB properly. First, [set up CORS](https://cloudwall.me/docs/sync.html#h-1co7nyhc) 
+for the specified domain. Then set up two config keys:
+```
+[vhosts] 
+photon.mydomain.xyz = /photon/_design/photon/_rewrite
+[httpd]
+secure_rewrites = false
+```
+Now typing `photon.mydomain.xyz` in browser runs Photon.
+
 ## FAQ
 
 __Where are source files?__
