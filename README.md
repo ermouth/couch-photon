@@ -6,6 +6,7 @@ Futon-inspired CouchDB admin panel. Covers 100% of Futon and most of Fauxton fea
 * High information density, similar or exceeding Futon
 * Group operations with DBs: create, delete, set security or compact
 * Group operations with docs: selective replication to other DB and deletion
+* Group _replicator operations: selective stop and restart of sync tasks 
 * Advanced JSON editor, understanding both JS and JSON syntax
 * Allows group file upload and renaming files before sending to CouchDB
 * Instant full text search in view results and JSON docs
