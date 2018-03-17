@@ -84,4 +84,4 @@ Default CDN has logging turned off, so requests and IPs are not collected. Updat
 
 ---
 
-(c) 2017 ermouth. Photon is MIT licensed.
+(c) 2018 ermouth. Photon is MIT licensed.
