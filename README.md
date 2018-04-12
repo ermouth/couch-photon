@@ -15,14 +15,11 @@ Futon-inspired CouchDB admin panel. Covers 100% of Futon and most of Fauxton fea
 
 See screencast at https://youtu.be/MHc6tozNhWU
 
-## Installation
-Download `photon.json` from [Github](https://raw.githubusercontent.com/ermouth/couch-photon/master/photon.json) or [AWS S3 CDN](https://s3-eu-west-1.amazonaws.com/cdn.cloudwall.me/photon/photon.json) and use one of the following ways:
+## Installation via curl
 
-a) Open JSON in any text editor. Create a doc in any CouchDB bucket, using Futon or Fauxton. Copy-paste JSON text into it. Save. Run `index.html` attachment, clicking it in Futon or Fauxton, or directly typing smth like `yourcouchdomain.xyz/db_with_photon/_design/photon/index.html`.
-
-b) `curl -H 'Content-Type: application/json' -X PUT http://yourdomain.com:5984/somedb/_design/photon -d @photon.json`. Run `index.html`.
-
-Next time you can upgrade Photon directly from Photon itself. Just click rightmost button at the navbar and check for updates.
+1. Create a `photon` database: `curl -H "Content-Type: application/json" -X PUT http://127.0.0.1:5984/photon`
+2. Fetch the source code and put it into a design document: `curl https://raw.githubusercontent.com/ermouth/couch-photon/master/photon.json | curl -H "Content-Type: application/json" -X PUT http://127.0.0.1:5984/photon/_design/photon -d @-`.
+3. Open `http://127.0.0.1:5984/photon/_design/photon/index.html` in the browser. Next time you can upgrade Photon directly from Photon itself. Just click the rightmost button at the navbar and check for updates.
 
 ## Installation using replication
 You can install Photon using native CouchDB replication. Since DB you will replicate from is of very limited capacity, please, only replicate once, do not make sync continuous.
