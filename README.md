@@ -6,7 +6,7 @@ Futon-inspired CouchDB admin panel. Covers 100% of Futon and most of Fauxton fea
 * High information density, similar or exceeding Futon
 * Group operations with DBs: create, delete, set security or compact
 * Group operations with docs: selective replication to other DB and deletion
-* Group _replicator operations: selective stop and restart of sync tasks 
+* Group \_replicator operations: selective stop and restart of sync tasks 
 * Advanced JSON editor, understanding both JS and JSON syntax
 * Allows group file upload and renaming files before sending to CouchDB
 * Instant full text search in view results and JSON docs
@@ -15,7 +15,15 @@ Futon-inspired CouchDB admin panel. Covers 100% of Futon and most of Fauxton fea
 
 See screencast at https://youtu.be/MHc6tozNhWU
 
-## Installation
+## Installation using curl
+
+1. Create a `photon` database, providing credentials: `curl -H "Content-Type: application/json" -X PUT http:///admin:____@127.0.0.1:5984/photon`
+2. Fetch the source code and put it into a design document, providing credentials: `curl https://raw.githubusercontent.com/ermouth/couch-photon/master/photon.json | curl -H "Content-Type: application/json" -X PUT http://admin:____@127.0.0.1:5984/photon/_design/photon -d @-`.
+3. Open `http://127.0.0.1:5984/photon/_design/photon/index.html` in the browser. 
+
+Next time you can upgrade Photon directly from Photon itself. Just click the rightmost button at the navbar and check for updates.
+
+## Installation using copy/paste
 Download `photon.json` from [Github](https://raw.githubusercontent.com/ermouth/couch-photon/master/photon.json) or [AWS S3 CDN](https://s3-eu-west-1.amazonaws.com/cdn.cloudwall.me/photon/photon.json) and use one of the following ways:
 
 a) Open JSON in any text editor. Create a doc in any CouchDB bucket, using Futon or Fauxton. Copy-paste JSON text into it. Save. Run `index.html` attachment, clicking it in Futon or Fauxton, or directly typing smth like `yourcouchdomain.xyz/db_with_photon/_design/photon/index.html`.
