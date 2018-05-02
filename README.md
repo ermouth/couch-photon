@@ -17,7 +17,7 @@ See screencast at https://youtu.be/MHc6tozNhWU
 
 ## Installation using curl
 
-1. Create a `photon` database, providing credentials: `curl -H "Content-Type: application/json" -X PUT http:///admin:____@127.0.0.1:5984/photon`
+1. Create a `photon` database, providing credentials: `curl -H "Content-Type: application/json" -X PUT http://admin:____@127.0.0.1:5984/photon`
 2. Fetch the source code and put it into a design document, providing credentials: `curl https://raw.githubusercontent.com/ermouth/couch-photon/master/photon.json | curl -H "Content-Type: application/json" -X PUT http://admin:____@127.0.0.1:5984/photon/_design/photon -d @-`.
 3. Open `http://127.0.0.1:5984/photon/_design/photon/index.html` in the browser. 
 
