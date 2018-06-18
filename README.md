@@ -82,9 +82,9 @@ __What is underlying technology?__
 
 Photon employs most conservative and bullet-proof approaches whenever possible: jQuery plus established plugins to render UI, and XMLHttpRequest to interact with CouchDB. Photon contains no libs, originating from corporate OSS. 
 
-__Why Photon uses Google fonts?__
+__Why Photon uses external fonts?__
 
-Monospaced fonts are downloaded from Google webfonts to avoid inclusion large font attachments in Photon ddoc. One font family adds ~0.5–0.8Mb to ddoc size.
+Monospaced fonts are downloaded from Google webfonts, icons – from cdnjs CDN. Including font into Photon design document vastly increase doc size.
 
 __Is it safe to update from CDN?__
 
