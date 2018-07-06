@@ -1,5 +1,5 @@
 # <img align="right" src="http://jquerymy.com/kod/photon-github.png" /> couch-photon
-Futon-inspired CouchDB admin panel. Covers 100% of Futon and most of Fauxton features.
+Photon is Futon-inspired CouchDB admin panel. Covers 100% of Futon and most of Fauxton features. Photon is a single CouchDB design document with attachments, so it can be installed on any CouchDB without re-building or reconfiguring CouchDB itself.
 
 ## Additional features
 
