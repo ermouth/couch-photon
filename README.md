@@ -1,6 +1,8 @@
 # <img align="right" src="http://jquerymy.com/kod/photon-github.png" /> couch-photon
 Photon is Futon-inspired CouchDB admin panel. Covers 100% of Futon and most of Fauxton features. Photon is a single CouchDB design document with attachments, so it can be installed on any CouchDB without re-building or reconfiguring CouchDB itself.
 
+Since version 1.2 Photon is completely self-contained and is ok for restricted networks. Fonts are no more fetched from external CDNs.
+
 ## Additional features
 
 * High information density, similar or exceeding Futon
@@ -84,7 +86,7 @@ Photon employs most conservative and bullet-proof approaches whenever possible: 
 
 __Why Photon uses external fonts?__
 
-Monospaced fonts are downloaded from Google webfonts, icons – from cdnjs CDN. Including font into Photon design document vastly increase doc size.
+Since version 1.2 it doesn’t. All fonts and icons are attached to the Photon design document.
 
 __Is it safe to update from CDN?__
 
