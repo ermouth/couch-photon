@@ -3,6 +3,8 @@ Photon is Futon-inspired CouchDB admin panel. Covers 100% of Futon and most of F
 
 Since version 1.2 Photon is completely self-contained and is ok for restricted networks. Fonts are no more fetched from external CDNs.
 
+Photon is especially recommended for those, who are tired with Fauxton. 
+
 ## Additional features
 
 * High information density, similar or exceeding Futon
