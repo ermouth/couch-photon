@@ -3,8 +3,6 @@ Photon is Futon-inspired CouchDB admin panel. Covers 100% of Futon and most of F
 
 Since version 1.2 Photon is completely self-contained and is ok for restricted networks. Fonts are no more fetched from external CDNs.
 
-Photon is especially recommended for those, who are tired with Fauxton. 
-
 ## Additional features
 
 * High information density, similar or exceeding Futon
@@ -13,6 +11,7 @@ Photon is especially recommended for those, who are tired with Fauxton.
 * Group \_replicator operations: selective stop and restart of sync tasks 
 * Advanced JSON editor, understanding both JS and JSON syntax
 * Allows group file upload and renaming files before sending to CouchDB
+* Supports named Mango queries, stored locally
 * Instant full text search in view results and JSON docs
 * Log viewer with instant search
 * Node-level and cluster config management.
@@ -39,7 +38,7 @@ Next time you can upgrade Photon directly from Photon itself. Just click rightmo
 ## Installation using replication
 You can install Photon using native CouchDB replication. Since DB you will replicate from is of very limited capacity, please, only replicate once, do not make sync continuous.
 
-__For CouchDB 1.7.1 and earlier.__ Create new doc in your `_replicator` DB and copy-paste below JSON into it. Save – and you are done.
+__For CouchDB 1.7.2 and earlier.__ Create new doc in your `_replicator` DB and copy-paste below JSON into it. Save – and you are done.
 ```json
 {
   "_id": "Photon",
