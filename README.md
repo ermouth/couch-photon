@@ -1,7 +1,7 @@
 # <img align="right" src="http://jquerymy.com/kod/photon-github.png" /> couch-photon
 Photon is Futon-inspired CouchDB admin panel. Covers 100% of Futon and most of Fauxton features. Photon is a single CouchDB design document with attachments, so it can be installed on any CouchDB without re-building or reconfiguring CouchDB itself.
 
-Since version 1.2 Photon is completely self-contained and is ok for restricted networks. Fonts are no more fetched from external CDNs.
+Photon is completely self-contained and is ok for restricted networks.
 
 ## Additional features
 
@@ -11,10 +11,10 @@ Since version 1.2 Photon is completely self-contained and is ok for restricted n
 * Group \_replicator operations: selective stop and restart of sync tasks 
 * Advanced JSON editor, understanding both JS and JSON syntax
 * Allows group file upload and renaming files before sending to CouchDB
-* Supports named Mango queries, stored locally
+* Supports Mango queries and indexes
 * Instant full text search in view results and JSON docs
 * Log viewer with instant search
-* Node-level and cluster config management.
+* Node and cluster level config management.
 
 See screencast at https://youtu.be/MHc6tozNhWU
 
@@ -33,7 +33,7 @@ a) Open JSON in any text editor. Create a doc in any CouchDB bucket, using Futon
 
 b) `curl -H 'Content-Type: application/json' -X PUT http://yourdomain.com:5984/somedb/_design/photon -d @photon.json`. Run `index.html`.
 
-Next time you can upgrade Photon directly from Photon itself. Just click rightmost button at the navbar and check for updates.
+Next time you can upgrade Photon directly from Photon itself. Just click the rightmost button at the navbar and check for updates.
 
 ## Installation using replication
 You can install Photon using native CouchDB replication. Since DB you will replicate from is of very limited capacity, please, only replicate once, do not make sync continuous.
@@ -61,6 +61,8 @@ __For CouchDB 2.x__ JSON is bit different (see below). You need to insert creden
   "doc_ids":["_design/photon"]
 }
 ```
+
+Next time you can upgrade Photon directly from Photon itself, without repliction. Just click the rightmost button at the navbar and check for updates.
 
 ## Dedicated host
 
