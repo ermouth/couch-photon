@@ -67,7 +67,7 @@ Next time you can upgrade Photon directly from Photon itself, without repliction
 ## Dedicated host
 
 Photon can run as a couchapp from a dedicated domain. To set up Photon for a dedicated host, 
-you only need to configure CouchDB properly. First, [set up CORS](https://cloudwall.me/docs/sync.html#h-1co7nyhc) 
+you only need to configure CouchDB properly. First, [set up CORS](https://cloudwall.me/setup_couch#h-16ylld74) 
 for the specified domain. Then set up two config keys:
 ```
 [vhosts] 
@@ -81,7 +81,7 @@ Now typing `photon.mydomain.xyz` in browser runs Photon.
 
 __Where are source files?__
 
-Photon never existed as source _files_. Its sources are CouchDB _docs_, and it is developed and built using specialized dev environment, [CloudWall](http://cloudwall.me).
+Photon never existed as source _files_. Its sources are CouchDB _docs_, and it is developed and built using specialized dev environment, [CloudWall](https://cloudwall.me).
 
 __What is underlying technology?__
 
