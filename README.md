@@ -1,7 +1,7 @@
 # <img align="right" src="http://jquerymy.com/kod/photon-github.png" /> couch-photon
 Photon is Futon-inspired CouchDB admin panel. Covers 100% of Futon and most of Fauxton features. Photon is a single CouchDB design document with attachments, so it can be installed on any CouchDB without re-building or reconfiguring CouchDB itself.
 
-Photon is completely self-contained and is ok for restricted networks.
+Photon is completely self-contained and is ok for restricted networks. By default, Photon start is restricted to authorized users having `_admin` or `app-photon` roles.
 
 ## Additional features
 
@@ -9,9 +9,10 @@ Photon is completely self-contained and is ok for restricted networks.
 * Group operations with DBs: create, delete, set security or compact
 * Group operations with docs: selective replication to other DB and deletion
 * Group \_replicator operations: selective stop and restart of sync tasks 
-* Advanced JSON editor, understanding both JS and JSON syntax
+* Includes JSON tree editor, understanding both JS and JSON syntax
 * Allows group file upload and renaming files before sending to CouchDB
 * Supports Mango queries and indexes
+* Memoizes Mango queries locally for re-use
 * Instant full text search in view results and JSON docs
 * Log viewer with instant search
 * Node and cluster level config management.
@@ -68,7 +69,7 @@ Next time you can upgrade Photon directly from Photon itself, without repliction
 
 Photon can run as a couchapp from a dedicated domain. To set up Photon for a dedicated host, 
 you only need to configure CouchDB properly. First, [set up CORS](https://cloudwall.me/setup_couch#h-16ylld74) 
-for the specified domain. Then set up two config keys:
+for the domain. Then set up two config keys:
 ```
 [vhosts] 
 photon.mydomain.xyz = /photon/_design/photon/_rewrite
@@ -76,6 +77,12 @@ photon.mydomain.xyz = /photon/_design/photon/_rewrite
 secure_rewrites = false
 ```
 Now typing `photon.mydomain.xyz` in browser runs Photon.
+
+## Configuring access
+
+By default, Photon only starts if a user has `_admin` or `app-photon` roles. Allowed roles are listed in `.settings.roles` branch of the Photon design document. You can edit this branch, save ddoc and reload Photon. 
+
+Modified settings are preserved during Photon updates.
 
 ## FAQ
 
@@ -86,10 +93,6 @@ Photon never existed as source _files_. Its sources are CouchDB _docs_, and it i
 __What is underlying technology?__
 
 Photon employs most conservative and bullet-proof approaches whenever possible: jQuery plus established plugins to render UI, and XMLHttpRequest to interact with CouchDB. Photon contains no libs, originating from corporate OSS. 
-
-__Why Photon uses external fonts?__
-
-Since version 1.2 it doesn’t. All fonts and icons are attached to the Photon design document.
 
 __Is it safe to update from CDN?__
 
