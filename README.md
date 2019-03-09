@@ -21,11 +21,11 @@ See screencast at https://youtu.be/MHc6tozNhWU
 
 ## Installation using curl
 
-1. Create a `photon` database, providing credentials: `curl -H "Content-Type: application/json" -X PUT http://admin:____@127.0.0.1:5984/photon`
-2. Fetch the source code and put it into a design document, providing credentials: `curl https://raw.githubusercontent.com/ermouth/couch-photon/master/photon.json | curl -H "Content-Type: application/json" -X PUT http://admin:____@127.0.0.1:5984/photon/_design/photon -d @-`.
+1. Create `photon` database, providing credentials: `curl -H "Content-Type: application/json" -X PUT http://admin:____@127.0.0.1:5984/photon`
+2. Download source code and put it into a design document, provide credentials: `curl https://raw.githubusercontent.com/ermouth/couch-photon/master/photon.json | curl -H "Content-Type: application/json" -X PUT http://admin:____@127.0.0.1:5984/photon/_design/photon -d @-`.
 3. Open `http://127.0.0.1:5984/photon/_design/photon/index.html` in the browser. 
 
-Next time you can upgrade Photon directly from Photon itself. Just click the rightmost button at the navbar and check for updates.
+Next time you can upgrade Photon directly from Photon itself. Just click the rightmost button at the navbar, and click Check for updates.
 
 ## Installation using copy/paste
 Download `photon.json` from [Github](https://raw.githubusercontent.com/ermouth/couch-photon/master/photon.json) or [AWS S3 CDN](https://s3-eu-west-1.amazonaws.com/cdn.cloudwall.me/photon/photon.json) and use one of the following ways:
@@ -34,7 +34,7 @@ a) Open JSON in any text editor. Create a doc in any CouchDB bucket, using Futon
 
 b) `curl -H 'Content-Type: application/json' -X PUT http://yourdomain.com:5984/somedb/_design/photon -d @photon.json`. Run `index.html`.
 
-Next time you can upgrade Photon directly from Photon itself. Just click the rightmost button at the navbar and check for updates.
+Next time you can upgrade Photon directly from Photon itself. Just click the rightmost button at the navbar, and click Check for updates.
 
 ## Installation using replication
 You can install Photon using native CouchDB replication. Since DB you will replicate from is of very limited capacity, please, only replicate once, do not make sync continuous.
@@ -63,7 +63,7 @@ __For CouchDB 2.x__ JSON is bit different (see below). You need to insert creden
 }
 ```
 
-Next time you can upgrade Photon directly from Photon itself, without repliction. Just click the rightmost button at the navbar and check for updates.
+Next time you can upgrade Photon directly from Photon itself, without repliction. Just click the rightmost button at the navbar, and click Check for updates button.
 
 ## Dedicated host
 
@@ -88,7 +88,7 @@ Modified settings are preserved during Photon updates.
 
 __Where are source files?__
 
-Photon never existed as source _files_. Its sources are CouchDB _docs_, and it is developed and built using specialized dev environment, [CloudWall](https://cloudwall.me).
+Photon never existed as source _files_, its sources are CouchDB _docs_. Photon is developed and built using specialized dev environment, CloudWall. You can explore [Photon source code](https://cloudwall.me/_demo/#cw/Manifest/!WyJlZGl0IiwiY3ctUGhvdG9uLTFjY2QiXQ--) right in browser, using CloudWall demo built-in IDE.
 
 __What is underlying technology?__
 
@@ -96,7 +96,7 @@ Photon employs most conservative and bullet-proof approaches whenever possible: 
 
 __Is it safe to update from CDN?__
 
-Default CDN has logging turned off, so requests and IPs are not collected. Update is always explicit and never performed until you click the update link. 
+Default CDN has logging turned off, so requests and IPs are not collected. Update is always explicit and never performed until you click the update button. 
 
 ---
 
