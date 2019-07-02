@@ -5,17 +5,19 @@ Photon is completely self-contained and is ok for restricted networks. By defaul
 
 ## Additional features
 
+* Multiple in-app tabs surviving page reload
 * High information density, similar or exceeding Futon
-* Group operations with DBs: create, delete, set security or compact
-* Group operations with docs: selective replication to other DB and deletion
-* Group \_replicator operations: selective stop and restart of sync tasks 
-* Includes JSON tree editor, understanding both JS and JSON syntax
-* Allows group file upload and renaming files before sending to CouchDB
-* Supports Mango queries and indexes
-* Memoizes Mango queries locally for re-use
-* Instant full text search in view results and JSON docs
-* Log viewer with instant search
-* Node and cluster level config management.
+* Group operations with DBs, ACLs, docs and sync tasks
+* Full text search for view results and JSON docs
+* JSON tree editor understanding JS syntax
+* Text editor for text-based attachments
+* View editor with JS, Erlang and Mango support
+* Mango queries memoization for re-use
+* Multiple file upload and rename
+* Node and cluster level config manager
+* Log viewer with search, for 1.x
+* Local docs list, for 2.x
+* Doc purge, for 2.3+.
 
 See screencast at https://youtu.be/MHc6tozNhWU
 
