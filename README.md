@@ -19,7 +19,7 @@ Photon is completely self-contained and is ok for restricted networks. By defaul
 * Local docs list, for 2.x
 * Doc purge, for 2.3+.
 
-See screencast at https://youtu.be/MHc6tozNhWU
+Photon supports all modern browsers, IE11 and iPad. Basic Photon features are shown in a screencast at https://youtu.be/MHc6tozNhWU
 
 ## Installation using curl
 
