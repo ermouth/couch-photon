@@ -17,13 +17,13 @@ Photon is completely self-contained and is ok for restricted networks. By defaul
 * Node and cluster level config manager
 * Log viewer with search, for 1.x
 * Local docs list, for 2.x
-* Doc purge, for 2.3+.
+* Docs purge, for 2.3+.
 
-Photon supports all modern browsers, IE11 and iPad. Basic Photon features are shown in a screencast at https://youtu.be/MHc6tozNhWU
+Photon supports all modern browsers, IE11 and iPad. Basic Photon features are shown in a bit dated screencast at [youtu.be/MHc6tozNhWU](https://youtu.be/MHc6tozNhWU).
 
 ## Installation using curl
 
-1. Create `photon` database, providing credentials: `curl -H "Content-Type: application/json" -X PUT http://admin:____@127.0.0.1:5984/photon`
+1. Create `photon` database, provide credentials: `curl -H "Content-Type: application/json" -X PUT http://admin:____@127.0.0.1:5984/photon`
 2. Download source code and put it into a design document, provide credentials: `curl https://raw.githubusercontent.com/ermouth/couch-photon/master/photon.json | curl -H "Content-Type: application/json" -X PUT http://admin:____@127.0.0.1:5984/photon/_design/photon -d @-`.
 3. Open `http://127.0.0.1:5984/photon/_design/photon/index.html` in the browser. 
 
