@@ -11,6 +11,7 @@ Photon is completely self-contained and is ok for restricted networks. By defaul
 * Full text search for view results and JSON docs
 * JSON tree editor understanding JS syntax
 * Text editor for text-based attachments
+* Document revisions structured diff
 * View editor with JS, Erlang and Mango support
 * Mango queries memoization for re-use
 * Multiple file upload and rename
