@@ -45,12 +45,12 @@ You can install Photon using native CouchDB replication. Since DB you will repli
 __For CouchDB 1.7.2 and earlier.__ Create new doc in your `_replicator` DB and copy-paste below JSON into it. Save – and you are done.
 ```json
 {
-  "_id": "Photon",
-  "source": "https://cloudwall.smileupps.com/photon/",
-  "target": "photon",
-  "create_target":true,
-  "doc_ids":["_design/photon"],
-  "user_ctx":{"name":"admin", "roles":["_admin"]}
+  "_id":      "Photon",
+  "source":   "https://cloudwall.smileupps.com/photon/",
+  "target":   "photon",
+  "create_target": true,
+  "doc_ids":  ["_design/photon"],
+  "user_ctx": {"name":"admin", "roles":["_admin"]}
 }
 ```
 To make sure `user_ctx` section works properly, you must have CouchDB proxy auth turned on. By default it’s active in CouchDB 1.x.
@@ -58,11 +58,11 @@ To make sure `user_ctx` section works properly, you must have CouchDB proxy auth
 __For CouchDB 2.x__ JSON is bit different (see below). You need to insert credentials since 2.x does not understand `user_ctx` param.
 ```json
 {
-  "_id": "Photon",
-  "source": "https://cloudwall.smileupps.com/photon/",
-  "target": "http://admin:__________@localhost:5984/photon",
-  "create_target":true,
-  "doc_ids":["_design/photon"]
+  "_id":      "Photon",
+  "source":   "https://cloudwall.smileupps.com/photon/",
+  "target":   "http://admin:__________@localhost:5984/photon",
+  "create_target": true,
+  "doc_ids":  ["_design/photon"]
 }
 ```
 
@@ -86,6 +86,16 @@ Now typing `photon.mydomain.xyz` in browser runs Photon.
 By default, Photon only starts if a user has `_admin` or `app-photon` role. Allowed roles are listed in `.settings.roles` branch of the Photon design document. You can edit this branch, save ddoc and reload Photon. 
 
 Modified settings are preserved during Photon updates.
+
+## Photon on 5986 port
+
+Photon is ok for viewing a cluster node internals using 5986 port. However, there are two main difficulties: how to ensure the Photon design ddoc is distributed over all cluster nodes, and how to determine the name of local shard containing Photon.
+
+To ensure distribution, `photon` bucket must be created using `q=1`, and `n` equal to number of nodes. For 3-node cluster it looks like `curl -H "Content-Type: application/json" -X PUT http://admin:____@127.0.0.1:5984/photon?q=1&n=3`.
+
+Setting `q=1` creates only a single shard for `photon` bucket, which makes it easy to locate shard name in `http://127.0.0.1:5986/_all_dbs` response.
+
+Resulting URL will look like `http://127.0.0.1:5986/shards%2F00000000-ffffffff%2Fphoton.1500000000/_design/photon/index.html`.
 
 ## FAQ
 
