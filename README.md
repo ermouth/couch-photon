@@ -1,12 +1,11 @@
 # <img align="right" src="http://jquerymy.com/kod/photon-github.png" /> couch-photon
-Photon is Futon-inspired CouchDB admin panel. Covers 100% of Futon and most of Fauxton features. Photon is a single CouchDB design document with attachments, so it can be installed on any CouchDB without re-building or reconfiguring CouchDB itself.
+Photon is Futon-inspired CouchDB admin panel with all Futon and most of Fauxton features. Photon is a single CouchDB design document with attachments, so it can be installed on any CouchDB without re-building or reconfiguring CouchDB itself.
 
-Photon is completely self-contained and is ok for restricted networks. By default, Photon only starts for users having `_admin` or `app-photon` role.
+Photon is completely self-contained and is ok for restricted networks. By default, users must have `_admin` or `app-photon` role to use Photon.
 
 ## Additional features
 
-* Multiple in-app tabs surviving page reload
-* High information density, similar or exceeding Futon
+* Multiple DB backup to external Couch, prefixed and filtered
 * Group operations with DBs, ACLs, docs and sync tasks
 * Full text search for view results and JSON docs
 * JSON tree editor understanding JS syntax
@@ -16,7 +15,7 @@ Photon is completely self-contained and is ok for restricted networks. By defaul
 * Mango queries memoization for re-use
 * Multiple file upload and rename
 * Node and cluster level config manager
-* Node and cluster stats (beta)
+* Node and cluster stats
 * Log viewer with search, for 1.x
 * Local docs list, for 2.x
 * Docs purge, for 2.3+.
