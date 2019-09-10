@@ -48,7 +48,7 @@ __For CouchDB 1.7.2 and earlier.__ Create new doc in your `_replicator` DB and c
 ```json
 {
   "_id":      "Photon",
-  "source":   "https://cloudwall.smileupps.com/photon/",
+  "source":   "https://cloudwall.smileupps.com/photon1/",
   "target":   "photon",
   "create_target": true,
   "doc_ids":  ["_design/photon"],
@@ -61,7 +61,7 @@ __For CouchDB 2.x__ JSON is bit different (see below). You need to insert creden
 ```json
 {
   "_id":      "Photon",
-  "source":   "https://cloudwall.smileupps.com/photon/",
+  "source":   "https://cloudwall.smileupps.com/photon1/",
   "target":   "http://admin:__________@localhost:5984/photon",
   "create_target": true,
   "doc_ids":  ["_design/photon"]
