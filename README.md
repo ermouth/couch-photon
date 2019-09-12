@@ -1,7 +1,7 @@
 # <img align="right" src="http://jquerymy.com/kod/photon-github.png" /> couch-photon
 Photon is Futon-inspired CouchDB admin panel with all Futon and most of Fauxton features. Photon is a single CouchDB design document with attachments, so it can be installed on any CouchDB without re-building or reconfiguring CouchDB itself.
 
-Photon is completely self-contained and is ok for restricted networks. By default, users must have `_admin` or `app-photon` role to use Photon.
+Photon is completely self-contained and is ok for restricted networks. Unless configured [differently](#configuring-access), users must have `_admin` or `app-photon` role to use Photon; this restriction only protects the app, it doesn’t add more security to CouchDB itself.
 
 ## Additional features
 
