@@ -87,7 +87,7 @@ Now typing `photon.mydomain.xyz` in browser runs Photon.
 
 By default, Photon only starts if a user has `_admin` or `app-photon` role. Allowed roles are listed in `.settings.roles` branch of the Photon design document. You can edit this branch, save ddoc and reload Photon. 
 
-Modified settings are preserved during Photon updates.
+Modified settings are preserved during Photon updates, if update performed using `Check for updates` button.
 
 ## Photon on 5986 port
 
