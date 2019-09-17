@@ -1,9 +1,11 @@
 # <img align="right" src="http://jquerymy.com/kod/photon-github.png" /> couch-photon
 Photon is Futon-inspired CouchDB admin panel with all Futon and most of Fauxton features. Photon is a single CouchDB design document with attachments, so it can be installed on any CouchDB without re-building or reconfiguring CouchDB itself.
 
+Basic Photon features are shown in a 12 minute screencast at [youtu.be/M9ptWXfwMN8](https://youtu.be/M9ptWXfwMN8).
+
 Photon is completely self-contained and is ok for restricted networks. Unless configured [differently](#configuring-access), users must have `_admin` or `app-photon` role to use Photon; this restriction only protects the app, it doesn’t add more security to CouchDB itself.
 
-## Additional features
+## Unique features
 
 * Multiple DB backup to external Couch, prefixed and filtered
 * Group operations with DBs, ACLs, docs and sync tasks
@@ -19,8 +21,6 @@ Photon is completely self-contained and is ok for restricted networks. Unless co
 * Log viewer with search, for 1.x
 * Local docs list, for 2.x
 * Docs purge, for 2.3+.
-
-Photon supports all modern browsers, IE11 and iPad. Basic Photon features are shown in a bit dated screencast at [youtu.be/MHc6tozNhWU](https://youtu.be/MHc6tozNhWU).
 
 Photon installation is basically putting `_design/photon` JSON doc into CouchDB. There are 3 ways: [command line](#installation-using-curl), [copy/paste](#installation-using-copypaste) and [replication](#installation-using-replication).
 
@@ -115,4 +115,4 @@ Default CDN has logging turned off, so requests and IPs are not collected. Updat
 
 ---
 
-(c) 2019 ermouth. Photon is MIT licensed.
+(c) 2019 ermouth. Photon is MIT licensed. Photon works in all modern browsers, IE11, and on iPad. 
