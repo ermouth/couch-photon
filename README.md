@@ -99,6 +99,12 @@ Setting `q=1` creates only a single shard for `photon` bucket, which makes it ea
 
 Resulting URL will look like `http://127.0.0.1:5986/shards%2F00000000-ffffffff%2Fphoton.1500000000/_design/photon/index.html`.
 
+## CouchDB performance test
+
+Since 1.9.22 Photon includes superficial CouchDB performance test, located in `perftest.html` attachment to Photon design doc. The test needs clear browser tab, run it opening `_design/photon` and clicking the attachment name.
+
+The test provides good insights how q,n cluster params impact performance. Also the test shows JS query server cost, and how it depends on sharding options.
+
 ## FAQ
 
 __Where are source files?__
