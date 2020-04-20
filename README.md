@@ -1,5 +1,5 @@
 # <img align="right" src="http://jquerymy.com/kod/photon-github.png" /> couch-photon
-Photon is Futon-inspired CouchDB admin panel with all Futon and most of Fauxton features. Photon is a single CouchDB design document with attachments, so it can be installed on any CouchDB without re-building or reconfiguring CouchDB itself.
+Photon is an alternative CouchDB admin panel with all Futon and most of Fauxton features. Photon is a single CouchDB design document with attachments, so it can be installed on any CouchDB without rebuilding or reconfiguring CouchDB itself.
 
 Basic Photon features are shown in a 12 minute screencast at [youtu.be/M9ptWXfwMN8](https://youtu.be/M9ptWXfwMN8).
 
@@ -19,7 +19,7 @@ Photon is completely self-contained and is ok for restricted networks. Unless co
 * Node and cluster level config manager
 * Node and cluster stats
 * Log viewer with search, for 1.x
-* Local docs list, for 2.x
+* Local docs list, for 2.0+
 * Docs purge, for 2.3+.
 
 Photon installation is basically putting `_design/photon` JSON doc into CouchDB. There are 3 ways: [command line](#installation-using-curl), [copy/paste](#installation-using-copypaste) and [replication](#installation-using-replication).
@@ -57,7 +57,7 @@ __For CouchDB 1.7.2 and earlier.__ Create new doc in your `_replicator` DB and c
 ```
 To make sure `user_ctx` section works properly, you must have CouchDB proxy auth turned on. By default it’s active in CouchDB 1.x.
 
-__For CouchDB 2.x__ JSON is bit different (see below). You need to insert credentials since 2.x does not understand `user_ctx` param.
+__For CouchDB 2+__ JSON is bit different (see below). You need to insert credentials since 2.x does not understand `user_ctx` param.
 ```json
 {
   "_id":      "Photon",
@@ -101,7 +101,7 @@ Resulting URL will look like `http://127.0.0.1:5986/shards%2F00000000-ffffffff%2
 
 ## CouchDB performance test
 
-Since 1.9.22 Photon includes superficial CouchDB performance test, located in `perftest.html` attachment to Photon design doc. The test needs clear browser tab, run it opening `_design/photon` and clicking the attachment name.
+Photon design document includes superficial CouchDB performance test, located in `perftest.html` attachment to `_design/photon`. The test needs clear browser tab, run it opening `_design/photon` and clicking the attachment name.
 
 The test provides good insights how q,n cluster params impact performance. Also the test shows JS query server cost, and how it depends on sharding options.
 
@@ -121,4 +121,4 @@ Default CDN has logging turned off, so requests and IPs are not collected. Updat
 
 ---
 
-(c) 2019 ermouth. Photon is MIT licensed. Photon works in all modern browsers, IE11, and on iPad. 
+(c) 2020 ermouth. Photon is MIT licensed. Photon works in all modern browsers, IE11, and on iPad. 
