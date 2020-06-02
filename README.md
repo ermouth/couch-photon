@@ -1,14 +1,15 @@
 # <img align="right" src="http://jquerymy.com/kod/photon-github.png" /> couch-photon
-Photon is an alternative CouchDB admin panel with all Futon and most of Fauxton features. Photon is a single CouchDB design document with attachments, so it can be installed on any CouchDB without rebuilding or reconfiguring CouchDB itself.
+Photon is an alternative CouchDB admin panel with all Futon and most of Fauxton features. Photon is a single CouchDB design document with attachments, so it can be installed on any running CouchDB without rebuilding or reconfiguring.
 
-Basic Photon features are shown in a 12 minute screencast at [youtu.be/M9ptWXfwMN8](https://youtu.be/M9ptWXfwMN8).
+Basic Photon features are shown in a short screencast at [youtu.be/M9ptWXfwMN8](https://youtu.be/M9ptWXfwMN8).
 
-Photon is completely self-contained and is ok for restricted networks. Unless configured [differently](#configuring-access), users must have `_admin` or `app-photon` role to use Photon; this restriction only protects the app, it doesn’t add more security to CouchDB itself.
+Photon is completely self-contained and is safe for restricted networks. Unless configured [differently](#configuring-access), users must have `_admin` or `app-photon` role to use Photon; this restriction only protects the app, it doesn’t add more security to CouchDB itself.
 
 ## Unique features
 
 * Multiple DB backup to external Couch, prefixed and filtered
 * Group operations with DBs, ACLs, docs and sync tasks
+* Node and cluster level config and stats monitoring
 * Full text search for view results and JSON docs
 * JSON tree editor understanding JS syntax
 * Text editor for text-based attachments
@@ -16,13 +17,11 @@ Photon is completely self-contained and is ok for restricted networks. Unless co
 * View editor with JS, Erlang and Mango support
 * Mango queries memoization for re-use
 * Multiple file upload and rename
-* Node and cluster level config manager
-* Node and cluster stats
 * Log viewer with search, for 1.x
 * Local docs list, for 2.0+
 * Docs purge, for 2.3+.
 
-Photon installation is basically putting `_design/photon` JSON doc into CouchDB. There are 3 ways: [command line](#installation-using-curl), [copy/paste](#installation-using-copypaste) and [replication](#installation-using-replication).
+Photon installation process is one-step: put `_design/photon` JSON doc into CouchDB. There are 3 ways: [command line](#installation-using-curl), [copy/paste](#installation-using-copypaste) and [replication](#installation-using-replication).
 
 ## Installation using curl
 
@@ -72,8 +71,8 @@ Next time you can upgrade Photon directly from Photon itself, without repliction
 
 ## Dedicated host
 
-Photon can run as a couchapp from a dedicated domain. To set up Photon for a dedicated host, 
-you only need to configure CouchDB properly. First, [set up CORS](https://cloudwall.me/setup_couch#h-16ylld74) 
+Photon can run as a couchapp on a dedicated domain. To set up Photon for a dedicated host  
+just configure CouchDB properly. First, [set up CORS](https://cloudwall.me/setup_couch#h-16ylld74) 
 for the domain. Then set up two config keys:
 ```
 [vhosts] 
@@ -113,7 +112,7 @@ Photon never existed as source _files_, its sources are CouchDB _docs_. Photon i
 
 __What is underlying technology?__
 
-Photon employs most conservative and bullet-proof approaches whenever possible: jQuery plus established plugins to render UI, and XMLHttpRequest to interact with CouchDB. Photon contains no libs, originating from corporate OSS. 
+Photon employs most conservative and bullet-proof approaches whenever possible: ES5 sources, jQuery plus established plugins to render UI, XMLHttpRequest to interact with CouchDB, no corporate OSS libs. 
 
 __Is it safe to update from CDN?__
 
