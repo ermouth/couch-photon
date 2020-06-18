@@ -25,20 +25,31 @@ Photon installation process is one-step: put `_design/photon` JSON doc into Couc
 
 ## Installation using curl
 
-1. Create `photon` database, provide credentials: `curl -H "Content-Type: application/json" -X PUT http://admin:____@127.0.0.1:5984/photon`
-2. Download source code and put it into a design document, provide credentials: `curl https://raw.githubusercontent.com/ermouth/couch-photon/master/photon.json | curl -H "Content-Type: application/json" -X PUT http://admin:____@127.0.0.1:5984/photon/_design/photon -d @-`.
-3. Open `http://127.0.0.1:5984/photon/_design/photon/index.html` in the browser. 
+First, copy below script into text editor and provide admin username/password at the first line. Then copy/paste result to command line, 
+then press Enter. The script creates `photon` bucket, makes the bucket public (important step if you have CouchDB 3+), downloads Photon ddoc and puts it into Couch.
 
-Next time you can upgrade Photon directly from Photon itself. Just click the rightmost button of navbar, and click `Check for updates`.
+```bash
+uname=______; upwd=______; \
+couch="-H Content-Type:application/json -X PUT http://$uname:$upwd@127.0.0.1:5984/photon"; \
+curl $couch; curl https://raw.githubusercontent.com/ermouth/couch-photon/master/photon.json | \
+curl $couch/_design/photon -d @- ; curl $couch/_security -d '{}' ; \
+couch=''; uname=''; upwd=''
+```
+
+After process finished, open `http://127.0.0.1:5984/photon/_design/photon/index.html` in browser. 
+
+Next time you can upgrade Photon directly from Photon itself: just click the rightmost button of navbar, then click `Check for updates` button.
 
 ## Installation using copy/paste
 Download `photon.json` from [Github](https://raw.githubusercontent.com/ermouth/couch-photon/master/photon.json) or [AWS S3 CDN](https://s3-eu-west-1.amazonaws.com/cdn.cloudwall.me/photon/photon.json) and use one of the following ways:
 
-a) Open JSON in any text editor. Create a doc in any CouchDB bucket, using Futon or Fauxton. Copy-paste JSON text into it. Save. Run `index.html` attachment, clicking it in Futon or Fauxton, or directly typing smth like `yourcouchdomain.xyz/db_with_photon/_design/photon/index.html`.
+a) Open JSON in any text editor. Create a doc in any CouchDB bucket, using Futon or Fauxton. Copy-paste JSON text into it. Save. Run `index.html` attachment, clicking it in Futon or Fauxton, or directly typing smth like `yourcouchdomain.xyz/photon/_design/photon/index.html`.
 
-b) `curl -H 'Content-Type: application/json' -X PUT http://yourdomain.com:5984/somedb/_design/photon -d @photon.json`. Run `index.html`.
+b) `curl -H Content-Type:application/json -X PUT http://yourdomain.com:5984/photon/_design/photon -d @photon.json`. Run `index.html`.
 
-Next time you can upgrade Photon directly from Photon itself. Just click the rightmost button of navbar, and click `Check for updates`.
+Next time you can upgrade Photon directly from Photon itself: just click the rightmost button of navbar, then click `Check for updates` button.
+
+Please note: for CouchDB 3.x you should explicitly make `photon` DB public, otherwise you can’t start Photon not being logged in.
 
 ## Installation using replication
 You can install Photon using native CouchDB replication. Since DB you will replicate from is of very limited capacity, please only replicate once, do not make sync continuous.
@@ -56,7 +67,7 @@ __For CouchDB 1.7.2 and earlier.__ Create new doc in your `_replicator` DB and c
 ```
 To make sure `user_ctx` section works properly, you must have CouchDB proxy auth turned on. By default it’s active in CouchDB 1.x.
 
-__For CouchDB 2+__ JSON is bit different (see below). You need to insert credentials since 2.x does not understand `user_ctx` param.
+__For CouchDB 2+__ JSON is bit different (see below). You need to insert credentials since CouchDB 2+ does not understand `user_ctx` param.
 ```json
 {
   "_id":      "Photon",
@@ -67,7 +78,9 @@ __For CouchDB 2+__ JSON is bit different (see below). You need to insert credent
 }
 ```
 
-Next time you can upgrade Photon directly from Photon itself, without repliction. Just click the rightmost button of navbar, and click `Check for updates` button.
+Next time you can upgrade Photon directly from Photon itself, without repliction. Just click the rightmost button of navbar, then click `Check for updates` button.
+
+Please note: for CouchDB 3.x you should explicitly make `photon` DB public, otherwise you can’t start Photon not being logged in.
 
 ## Dedicated host
 
@@ -86,15 +99,15 @@ Now typing `photon.mydomain.xyz` in browser runs Photon.
 
 By default, Photon only starts if a user has `_admin` or `app-photon` role. Allowed roles are listed in `.settings.roles` branch of the Photon design document. You can edit this branch, save ddoc and reload Photon. 
 
-Modified settings are preserved during Photon updates, if update performed using `Check for updates` button.
+Modified settings are preserved during Photon update if it’s performed using `Check for updates` button.
 
 ## Photon on 5986 port
 
-Photon is ok for viewing a cluster node internals using 5986 port. However, there are two main difficulties: how to ensure the Photon design ddoc is distributed over all cluster nodes, and how to determine the name of local shard containing Photon.
+Photon is ok for viewing a cluster node internals using 5986 port. The only problem is to determine the name of a shard containing Photon.
 
-To ensure distribution, `photon` bucket must be created using `q=1`, and `n` equal to number of nodes. For 3-node cluster it looks like `curl -H "Content-Type: application/json" -X PUT http://admin:____@127.0.0.1:5984/photon?q=1&n=3`.
+To ensure only single shard, the `photon` bucket should be created using `q=1` param. For 3-node cluster it might look like `curl -H Content-Type:application/json -X PUT http://admin:____@127.0.0.1:5984/photon?q=1`.
 
-Setting `q=1` creates only a single shard for `photon` bucket, which makes it easy to locate shard name in `http://127.0.0.1:5986/_all_dbs` response.
+Single shard makes it easy to locate the shard name in `http://127.0.0.1:5986/_all_dbs` response.
 
 Resulting URL will look like `http://127.0.0.1:5986/shards%2F00000000-ffffffff%2Fphoton.1500000000/_design/photon/index.html`.
 
