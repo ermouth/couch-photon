@@ -103,9 +103,9 @@ Modified settings are preserved during Photon update if it’s performed using `
 
 ## Photon on 5986 port
 
-Photon is ok for viewing a cluster node internals using 5986 port. The only problem is to determine the name of a shard containing Photon.
+Photon is ok for viewing a cluster node internals using 5986 port. 
 
-To ensure only single shard, the `photon` bucket should be created using `q=1` param. For 3-node cluster it might look like `curl -H Content-Type:application/json -X PUT http://admin:____@127.0.0.1:5984/photon?q=1`.
+To ensure only single shard, the `photon` bucket better be created using `q=1` param like `curl -H Content-Type:application/json -X PUT http://admin:____@127.0.0.1:5984/photon?q=1`.
 
 Single shard makes it easy to locate the shard name in `http://127.0.0.1:5986/_all_dbs` response.
 
@@ -113,9 +113,9 @@ Resulting URL will look like `http://127.0.0.1:5986/shards%2F00000000-ffffffff%2
 
 ## CouchDB performance test
 
-Photon design document includes superficial CouchDB performance test, located in `perftest.html` attachment to `_design/photon`. The test needs clear browser tab, run it opening `_design/photon` and clicking the attachment name.
+Photon design document includes superficial CouchDB performance test accessible from About tab for users with `_admin` role.
 
-The test provides good insights how q,n cluster params impact performance. Also the test shows JS query server cost, and how it depends on sharding options.
+The test provides good insights how q,n cluster params impact performance. Also test shows JS query server costs, and how QS performance depends on sharding options.
 
 ## FAQ
 
@@ -133,4 +133,4 @@ Default CDN has logging turned off, so requests and IPs are not collected. Updat
 
 ---
 
-(c) 2020 ermouth. Photon is MIT licensed. Photon works in all modern browsers, IE11, and on iPad. 
+(c) 2021 ermouth. Photon is MIT licensed. Photon works in all modern browsers, IE11, and on iPad. 
