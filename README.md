@@ -7,19 +7,16 @@ Photon is completely self-contained and is safe for restricted networks. Unless 
 
 ## Unique features
 
-* Multiple DB backup to external Couch, prefixed and filtered
+* [Group dump to ZIP](#dump-to-zip-and-restore), and also restore
+* Doc JSON tree editor, understands JS syntax
+* Full text search in view results and JSON trees
 * Group operations with DBs, ACLs, docs and sync tasks
+* Multiple DB backup to external Couch, prefixed and filtered
 * Node and cluster level config and stats monitoring
-* Full text search for view results and JSON docs
-* JSON tree editor understanding JS syntax
-* Text editor for text-based attachments
-* Document revisions structured diff
 * View editor with JS, Erlang and Mango support
-* Mango queries memoization for re-use
-* Multiple file upload and rename
-* Log viewer with search, for 1.x
-* Local docs list, for 2.0+
-* Docs purge, for 2.3+.
+* Document revisions structured diff
+* Local docs list and view
+* Docs purge
 
 Photon installation process is one-step: put `_design/photon` JSON doc into CouchDB. There are 3 ways: [command line](#installation-using-curl), [copy/paste](#installation-using-copypaste) and [replication](#installation-using-replication).
 
@@ -82,6 +79,30 @@ Next time you can upgrade Photon directly from Photon itself, without repliction
 
 Please note: for CouchDB 3.x you should explicitly make `photon` DB public, otherwise you can’t start Photon not being logged in.
 
+## Configuring access
+
+By default, Photon only starts if a user has `_admin` or `app-photon` role. Allowed roles are listed in `.settings.roles` branch of the Photon design document. You can edit this branch, save ddoc and reload Photon. 
+
+Modified settings are preserved during Photon update if it’s performed using `Check for updates` button.
+
+## Dump to ZIP and restore
+
+The `Sync/dump…` dialog has special switch `ZIP` to manage DB dump/restore process. Photon can dump several DBs into one archive file, and later restore them, all or partially, under original or different names. In most browsers in safe environment (https) Photon can handle gigabytes of data without stalling.
+
+Unlike all other Photon components, ZIP processor relies on very modern browser technologies, which means ZIP features don’t work in browsers older than \~2017. 
+
+ZIP processor tries to use streams, and to employ almost all CPU power available, so it easily saturates 50Mbit/s network on very average notebook. 
+
+Streaming doesn’t work in Safari <14.1, also no streaming in unsafe environment. No streaming means entire dump should fit in RAM, which still allows dump size up to several hundreds of megabytes.
+
+All docs in a Photon-generated ZIP archive are named like `dbname/doc_id.json`. Also ZIP always contains `_info.json` file at the very start. This file contains DB list, security objects, stats, etc. Unzip can only work with archives having info file in the first megabyte of data. 
+
+## CouchDB performance test
+
+Photon design document includes superficial CouchDB performance test accessible from About tab for users with `_admin` role.
+
+The test provides good insights how `q,n` cluster params impact performance. Also test shows JS query server costs, and how QS performance depends on sharding options.
+
 ## Dedicated host
 
 Photon can run as a couchapp on a dedicated domain. To set up Photon for a dedicated host  
@@ -95,28 +116,6 @@ secure_rewrites = false
 ```
 Now typing `photon.mydomain.xyz` in browser runs Photon.
 
-## Configuring access
-
-By default, Photon only starts if a user has `_admin` or `app-photon` role. Allowed roles are listed in `.settings.roles` branch of the Photon design document. You can edit this branch, save ddoc and reload Photon. 
-
-Modified settings are preserved during Photon update if it’s performed using `Check for updates` button.
-
-## Photon on 5986 port
-
-Photon is ok for viewing a cluster node internals using 5986 port. 
-
-To ensure only single shard, the `photon` bucket better be created using `q=1` param like `curl -H Content-Type:application/json -X PUT http://admin:____@127.0.0.1:5984/photon?q=1`.
-
-Single shard makes it easy to locate the shard name in `http://127.0.0.1:5986/_all_dbs` response.
-
-Resulting URL will look like `http://127.0.0.1:5986/shards%2F00000000-ffffffff%2Fphoton.1500000000/_design/photon/index.html`.
-
-## CouchDB performance test
-
-Photon design document includes superficial CouchDB performance test accessible from About tab for users with `_admin` role.
-
-The test provides good insights how q,n cluster params impact performance. Also test shows JS query server costs, and how QS performance depends on sharding options.
-
 ## FAQ
 
 __Where are source files?__
@@ -125,7 +124,8 @@ Photon never existed as source _files_, its sources are CouchDB _docs_. Photon i
 
 __What is underlying technology?__
 
-Photon employs most conservative and bullet-proof approaches whenever possible: ES5 sources, jQuery plus established plugins to render UI, XMLHttpRequest to interact with CouchDB, no corporate OSS libs. 
+Photon employs most conservative and bullet-proof approaches whenever possible: ES5 sources, jQuery plus established plugins to render UI, XMLHttpRequest to interact with CouchDB, no corporate OSS libs. The only exception is ZIP processor, it requires modern browser technologies to 
+work with decent speed, or to work at all.
 
 __Is it safe to update from CDN?__
 
