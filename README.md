@@ -91,7 +91,7 @@ The `Sync/dump…` dialog has special switch `ZIP` to manage DB dump/restore pro
 
 Unlike all other Photon components, ZIP processor relies on very modern browser technologies, which means ZIP features don’t work in browsers older than \~2017. 
 
-ZIP processor tries to use streams, and to employ almost all CPU power available, so it easily saturates 50Mbit/s network on very average notebook. 
+ZIP processor tries to use streams, and to employ almost all CPU power available, so given a DB of large docs it easily saturates 50Mbit/s network on very average notebook. 
 
 Streaming doesn’t work in Safari <14.1, also no streaming in unsafe environment. No streaming means entire dump should fit in RAM, which still allows dump size up to several hundreds of megabytes.
 
