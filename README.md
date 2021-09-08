@@ -22,8 +22,8 @@ Photon installation process is one-step: put `_design/photon` JSON doc into Couc
 
 ## Installation using curl
 
-First, copy below script into text editor and provide admin username/password at the first line. Then copy/paste result to command line 
-and press Enter. The script creates `photon` bucket, makes the bucket public (important step if you have CouchDB 3+), downloads Photon ddoc, and puts it into Couch.
+First, copy the script below into a text editor and provide admin username/password in the first line. Then copy/paste result to the command line 
+and press Enter. The script creates `photon` bucket, makes the bucket public (an important step if you have CouchDB 3+), downloads Photon ddoc, and puts it into Couch.
 
 ```bash
 uname=______; upwd=______; \
@@ -33,9 +33,9 @@ curl $couch/_design/photon -d @- ; curl $couch/_security -d '{}' ; \
 couch=''; uname=''; upwd=''
 ```
 
-After process finished, open `http://127.0.0.1:5984/photon/_design/photon/index.html` in browser. 
+After the process is finished, open `http://127.0.0.1:5984/photon/_design/photon/index.html` in browser. 
 
-Next time you can upgrade Photon directly from Photon itself: just click the rightmost button of navbar, then click `Check for updates` button.
+Next time you can upgrade Photon directly from Photon itself: just click the rightmost button on the navbar, then click `Check for updates` button.
 
 ## Installation using copy/paste
 Download `photon.json` from [Github](https://raw.githubusercontent.com/ermouth/couch-photon/master/photon.json) or [AWS S3 CDN](https://s3-eu-west-1.amazonaws.com/cdn.cloudwall.me/photon/photon.json) and use one of the following ways:
@@ -44,14 +44,14 @@ a) Open JSON in any text editor. Create a doc in any CouchDB bucket, using Futon
 
 b) `curl -H Content-Type:application/json -X PUT http://yourdomain.com:5984/photon/_design/photon -d @photon.json`. Run `index.html`.
 
-Next time you can upgrade Photon directly from Photon itself: just click the rightmost button of navbar, then click `Check for updates` button.
+Next time you can upgrade Photon directly from Photon itself: just click the rightmost button on the navbar, then click `Check for updates` button.
 
 Please note: for CouchDB 3.x you should explicitly make `photon` DB public, otherwise you can’t start Photon not being logged in.
 
 ## Installation using replication
-You can install Photon using native CouchDB replication. Since DB you will replicate from is of very limited capacity, please only replicate once, do not make sync continuous.
+You can install Photon using native CouchDB replication. Since the DB you will replicate from has very limited capacity, please only replicate once, do not make sync continuous.
 
-__For CouchDB 1.7.2 and earlier.__ Create new doc in your `_replicator` DB and copy-paste below JSON into it. Save – and you are done.
+__For CouchDB 1.7.2 and earlier.__ Create a new doc in your `_replicator` DB and copy-paste below JSON into it. Save – and you are done.
 ```json
 {
   "_id":      "Photon",
@@ -75,7 +75,7 @@ __For CouchDB 2+__ JSON is bit different (see below). You need to insert credent
 }
 ```
 
-Next time you can upgrade Photon directly from Photon itself, without repliction. Just click the rightmost button of navbar, then click `Check for updates` button.
+Next time you can upgrade Photon directly from Photon itself, without replication. Just click the rightmost button on the navbar, then click `Check for updates` button.
 
 Please note: for CouchDB 3.x you should explicitly make `photon` DB public, otherwise you can’t start Photon not being logged in.
 
@@ -87,21 +87,21 @@ Modified settings are preserved during Photon update if it’s performed using `
 
 ## Dump to ZIP and restore
 
-The `Sync/dump…` dialog has special switch `ZIP` to manage DB dump/restore process. Photon can dump several DBs into one archive file, and later restore them, all or partially, under original or different names. In most browsers in safe environment (https) Photon can handle gigabytes of data without stalling.
+The `Sync/dump…` dialog has special switch `ZIP` to manage the DB dump/restore process. Photon can dump several DBs into one archive file, and later restore them, in full or in part, under the original or different names. In most browsers in safe environment (https) Photon can handle gigabytes of data without stalling.
 
-Unlike all other Photon components ZIP processor relies on very modern browser technologies, which means ZIP features don’t work in browsers older than \~2017. 
+Unlike all other Photon components, ZIP processor relies on the latest browser technologies, which means ZIP features don’t work in browsers older than \~2017. 
 
-ZIP processor tries to use streams, and also to employ almost all CPU power available, so given a DB of large docs it easily saturates 50Mbit/s network on very average notebook. 
+ZIP processor tries to use streams, and also to employ almost all CPU power available, so given a DB of large docs it easily saturates 50Mbit/s network on a very average notebook. 
 
 Streaming doesn’t work in Safari <14.1, also no streaming in unsafe environment. No streaming means entire dump should fit in RAM, which still allows dump size up to several hundreds of megabytes.
 
-All docs in a Photon-generated ZIP archive are named like `dbname/doc_id.json`. Also ZIP always contains `_info.json` file at the very start. This file contains DB list, security objects, stats, etc. Unzip can only work with archives having info file in the first megabyte of data. 
+All docs in a Photon-generated ZIP archive are named like `dbname/doc_id.json`. Also ZIP always contains `_info.json` file at the very start. This file contains DB list, security objects, stats, etc. Unzip can only work with archives having the info file in the first megabyte of data. 
 
 ## CouchDB performance test
 
 Photon design document includes superficial CouchDB performance test accessible from About tab for users with `_admin` role.
 
-The test provides good insights how `q,n` cluster params impact performance. Also test shows JS query server costs, and how QS performance depends on sharding options.
+The test provides good insights how `q,n` cluster params impact performance. Also, the test shows JS query server costs, and how QS performance depends on sharding options.
 
 ## Dedicated host
 
@@ -114,17 +114,17 @@ photon.mydomain.xyz = /photon/_design/photon/_rewrite
 [httpd]
 secure_rewrites = false
 ```
-Now typing `photon.mydomain.xyz` in browser runs Photon.
+Now typing `photon.mydomain.xyz` in the browser runs Photon.
 
 ## FAQ
 
 __Where are source files?__
 
-Photon never existed as source _files_, its sources are CouchDB _docs_. Photon is developed and built using specialized dev environment, CloudWall. You can explore [Photon source code](https://cloudwall.me/_demo/#cw/Manifest/!WyJlZGl0IiwiY3ctUGhvdG9uLTFjY2QiXQ--) right in browser, using CloudWall demo built-in IDE.
+Photon never existed as source _files_, its sources are CouchDB _docs_. Photon is developed and built using specialized dev environment, CloudWall. You can explore [Photon source code](https://cloudwall.me/_demo/#cw/Manifest/!WyJlZGl0IiwiY3ctUGhvdG9uLTFjY2QiXQ--) right in the browser, using CloudWall demo built-in IDE.
 
 __What is underlying technology?__
 
-Photon employs most conservative and bullet-proof approaches whenever possible: ES5 sources, jQuery plus established plugins to render UI, XMLHttpRequest to interact with CouchDB, no corporate OSS libs. The only exception is ZIP processor, it requires modern browser technologies to 
+Photon employs the most conservative and bullet-proof approaches whenever possible: ES5 sources, jQuery plus established plugins to render UI, XMLHttpRequest to interact with CouchDB, no corporate OSS libs. The only exception is the ZIP processor, it requires modern browser technologies to 
 work with decent speed, or to work at all.
 
 __Is it safe to update from CDN?__
