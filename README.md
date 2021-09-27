@@ -1,5 +1,5 @@
 # <img align="right" src="http://jquerymy.com/kod/photon-github.png" /> couch-photon
-Photon is an alternative CouchDB admin panel with all Futon and most of Fauxton features. Photon is a single CouchDB design document with attachments, so it can be installed on any running CouchDB without rebuilding or reconfiguring.
+Photon is an alternative CouchDB admin panel with all standard and a lot of unique features. Photon is a single CouchDB design document with attachments, so it can be installed on any running CouchDB without rebuilding or reconfiguring.
 
 Basic Photon features are shown in a short screencast at [youtu.be/M9ptWXfwMN8](https://youtu.be/M9ptWXfwMN8).
 
@@ -8,8 +8,8 @@ Photon is completely self-contained and is safe for restricted networks. Unless 
 ## Unique features
 
 * [Group dump to ZIP](#dump-to-zip-and-restore), and also restore
-* Doc JSON tree editor, understands JS syntax
-* Full text search in view results and JSON trees
+* Instant search in view results and JSON trees
+* JSON editor with JS syntax and out-of-order undo
 * Group operations with DBs, ACLs, docs and sync tasks
 * Multiple DB backup to external Couch, prefixed and filtered
 * Node and cluster level config and stats monitoring
