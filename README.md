@@ -128,8 +128,7 @@ Photon never existed as source _files_, its sources are CouchDB _docs_. Photon i
 
 __What is underlying technology?__
 
-Photon employs the most conservative and bullet-proof approaches whenever possible: ES5 sources, jQuery plus established plugins to render UI, XMLHttpRequest to interact with CouchDB, no corporate OSS libs. The only exception is the ZIP processor, it requires modern browser technologies to 
-work with decent speed, or to work at all.
+Photon employs conservative and bullet-proof approaches whenever possible: ES5 sources, jQuery plus established plugins to render UI, XMLHttpRequest to interact with CouchDB, no corporate OSS libs. The only exception is the ZIP processor, it requires modern browser technologies to work with decent speed, or to work at all.
 
 __Is it safe to update from CDN?__
 
@@ -137,4 +136,4 @@ Default CDN has logging turned off, so requests and IPs are not collected. Updat
 
 ---
 
-(c) 2021 ermouth. Photon is MIT licensed. Photon works in all modern browsers, IE11, and on iPad. 
+(c) 2021 ermouth. Photon is MIT licensed. Works in all modern browsers. 
