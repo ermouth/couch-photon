@@ -91,7 +91,7 @@ To preserve settings during Photon update use `Check for updates` button, not re
 
 ## Dump to ZIP and restore
 
-The `Sync/dump…` dialog has special switch `ZIP` to manage the DB dump/restore process. Photon can dump several DBs into one archive file, and later restore them, in full or in part, under the original or different names. In most browsers in safe environment (https) Photon can handle gigabytes of data without stalling.
+The `Sync/dump…` dialog has special switch `ZIP` to manage the DB dump/restore process. Photon can dump several DBs into one archive file, and later restore them, in full or in part, under the original or different names. In most modern browsers in safe environment (https) Photon can handle gigabytes of data without stalling.
 
 Unlike all other Photon components, ZIP processor relies on the latest browser technologies, which means ZIP features don’t work in browsers older than \~2017. 
 
@@ -136,4 +136,4 @@ Default CDN has logging turned off, so requests and IPs are not collected. Updat
 
 ---
 
-(c) 2021 ermouth. Photon is MIT licensed. Works in all modern browsers. 
+(c) 2022 ermouth. Photon is MIT licensed. Works in all modern browsers. 
