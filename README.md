@@ -11,8 +11,7 @@ Photon is completely self-contained and is safe for restricted networks. Unless 
 * Instant search in view results and JSON trees
 * JSON editor with JS syntax and out-of-order undo
 * Group operations with DBs, ACLs, docs and sync tasks
-* Multiple DB backup to external Couch, prefixed and filtered
-* Node and cluster level config and stats monitoring
+* Node and cluster level stats display and config
 * View editor with JS, Erlang and Mango support
 * Document revisions structured diff
 * Local docs list and view
@@ -93,13 +92,7 @@ To preserve settings during Photon update use `Check for updates` button, not re
 
 The `Sync/dump…` dialog has special switch `ZIP` to manage the DB dump/restore process. Photon can dump several DBs into one archive file, and later restore them, in full or in part, under the original or different names. In most modern browsers in safe environment (https) Photon can handle gigabytes of data without stalling.
 
-Unlike all other Photon components, ZIP processor relies on the latest browser technologies, which means ZIP features don’t work in browsers older than \~2017. 
-
-ZIP processor tries to use streams, and also to employ almost all CPU power available, so given a DB of large docs it easily saturates 50Mbit/s network on a very average notebook. 
-
-Streaming doesn’t work in Safari <14.1, also no streaming in unsafe environment. No streaming means entire dump should fit in RAM, which still allows dump size up to several hundreds of megabytes.
-
-All docs in a Photon-generated ZIP archive are named like `dbname/doc_id.json`. Also ZIP always contains `_info.json` file at the very start. This file contains DB list, security objects, stats, etc. Unzip can only work with archives having the info file in the first megabyte of data. 
+ZIP processor tries to use streams, and also to employ almost all CPU power available, so given a DB of large docs it easily saturates 55Mbit/s wifi on a very average machine. 
 
 ## CouchDB performance test
 
@@ -128,7 +121,7 @@ Photon never existed as source _files_, its sources are CouchDB _docs_. Photon i
 
 __What is underlying technology?__
 
-Photon employs conservative and bullet-proof approaches whenever possible: ES5 sources, jQuery plus established plugins to render UI, XMLHttpRequest to interact with CouchDB, no corporate OSS libs. The only exception is the ZIP processor, it requires modern browser technologies to work with decent speed, or to work at all.
+Photon employs conservative and bullet-proof approaches whenever possible: mostly ES5 sources, jQuery plus established plugins to render UI, XMLHttpRequest to interact with CouchDB, no corporate OSS libs. The only exception is the ZIP processor, it requires modern browser technologies to work with decent speed, or to work at all.
 
 __Is it safe to update from CDN?__
 
