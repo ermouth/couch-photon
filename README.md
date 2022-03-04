@@ -41,7 +41,7 @@ After the process is finished, open `http://127.0.0.1:5984/photon/_design/photon
 Next time you can upgrade Photon directly from Photon itself: just click the rightmost button on the navbar, then click `Check for updates` button.
 
 ## Install using copy/paste
-Download `photon.json` from [Github](https://raw.githubusercontent.com/ermouth/couch-photon/master/photon.json) or [AWS S3 CDN](https://s3-eu-west-1.amazonaws.com/cdn.cloudwall.me/photon/photon.json) and use one of the following ways:
+Download `photon.json` from [Github](https://raw.githubusercontent.com/ermouth/couch-photon/master/photon.json) or [CloudWall CDN](https://cdn.cloudwall.me/photon/photon.json) and use one of the following ways:
 
 a) Open JSON in any text editor. Create a doc in any CouchDB bucket, using Futon or Fauxton. Copy-paste JSON text into it. Save. Run `index.html` attachment, clicking it in Futon or Fauxton, or directly typing smth like `yourcouchdomain.xyz/photon/_design/photon/index.html`.
 
@@ -123,9 +123,11 @@ __What is underlying technology?__
 
 Photon employs conservative and bullet-proof approaches whenever possible: mostly ES5 sources, jQuery plus established plugins to render UI, XMLHttpRequest to interact with CouchDB, no corporate OSS libs. The only exception is the ZIP processor, it requires modern browser technologies to work with decent speed, or to work at all.
 
-__Is it safe to update from CDN?__
+__Is it safe to update Photon from the default CDN?__
 
-Default CDN has logging turned off, so requests and IPs are not collected. Update is always explicit and never performed until you click the update button. 
+Basically, CloudWall CDN is the “source of truth” for all other places where latest stable version of Photon is available. Default CDN has very superficial logging, however if you are concerned about your node IP is logged during update, you always can download Photon json from Github manually.
+
+Note that updates are always explicit and are never performed until you click the update button. Time to time update reminder never makes any requests to check for new version, it’s just a timer.
 
 ---
 
