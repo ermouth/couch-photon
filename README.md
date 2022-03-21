@@ -21,13 +21,11 @@ Photon is completely self-contained and is safe for restricted networks. Unless 
 
 Photon installation process is one-step: put `_design/photon` JSON doc into CouchDB. There are 3 ways: [command line](#install-using-curl), [copy/paste](#install-using-copypaste) and [replication](#install-using-replication).
 
-**For CouchDB 3.1.2+:** newly introduced CSP defaults can prevent Photon from starting. Before installing Photon you might need to set `csp/attachments_enable = false` to make Photon work, use Fauxton for that. After modifying config you need to shift-reload, close and then re-open Photon browser tab.
-
 ## Install using curl
 
-First, copy the script below into a text editor and provide admin username/password in the first line. Then copy/paste result to the command line 
-and press Enter. The script creates `photon` bucket, makes the bucket public (an important step if you have CouchDB 3+), downloads Photon ddoc, and puts it into Couch.
+First, copy the script below into a text editor and provide admin username/password in the first line. Then copy/paste result to the command line and press Enter. The script creates `photon` bucket, makes the bucket public (an important step if you have CouchDB 3+), downloads Photon ddoc, and puts it into Couch.
 
+__For CouchDB 3.0 and earlier:__
 ```bash
 uname=______; upwd=______; \
 couch="-H Content-Type:application/json -X PUT http://$uname:$upwd@127.0.0.1:5984/photon"; \
@@ -36,11 +34,23 @@ curl $couch/_design/photon -d @- ; curl $couch/_security -d '{}' ; \
 couch=''; uname=''; upwd=''
 ```
 
+__For CouchDB 3.1+,__ Couch config tuning added.
+```bash
+uname=______; upwd=______; \
+couch="-H Content-Type:application/json -X PUT http://$uname:$upwd@127.0.0.1:5984"; \
+curl $couch/photon; curl https://raw.githubusercontent.com/ermouth/couch-photon/master/photon.json | \
+curl $couch/photon/_design/photon -d @- ; curl $couch/photon/_security -d '{}' ; \
+curl $couch/_node/_local/_config/csp/attachments_enable -d '"false"' ; \
+curl $couch/_node/_local/_config/chttpd_auth/same_site -d '"lax"' ; \
+couch=''; uname=''; upwd=''
+```
+
 After the process is finished, open `http://127.0.0.1:5984/photon/_design/photon/index.html` in browser. 
 
 Next time you can upgrade Photon directly from Photon itself: just click the rightmost button on the navbar, then click `Check for updates` button.
 
 ## Install using copy/paste
+
 Download `photon.json` from [Github](https://raw.githubusercontent.com/ermouth/couch-photon/master/photon.json) or [CloudWall CDN](https://cdn.cloudwall.me/photon/photon.json) and use one of the following ways:
 
 a) Open JSON in any text editor. Create a doc in any CouchDB bucket, using Futon or Fauxton. Copy-paste JSON text into it. Save. Run `index.html` attachment, clicking it in Futon or Fauxton, or directly typing smth like `yourcouchdomain.xyz/photon/_design/photon/index.html`.
@@ -49,9 +59,10 @@ b) `curl -H Content-Type:application/json -X PUT http://yourdomain.com:5984/phot
 
 Next time you can upgrade Photon directly from Photon itself: just click the rightmost button on the navbar, then click `Check for updates` button.
 
-**For CouchDB 3.x:** you should explicitly make `photon` DB public to run Photon, also for 3.1.2+ you need to set `csp/atatchments_enable` config key to `false`.
+**For CouchDB 3.x:** you should explicitly make `photon` DB public to run Photon. For 3.1+ you also need to set `csp/atatchments_enable` config key to `false`, and `chttpd_auth/same_site` to `lax`.
 
 ## Install using replication
+
 You can install Photon using native CouchDB replication. Since the DB you will replicate from has very limited capacity, please only replicate once, do not make sync continuous.
 
 __For CouchDB 1.7.2 and earlier.__ Create a new doc in your `_replicator` DB and copy-paste below JSON into it. Save – and you are done.
@@ -80,7 +91,7 @@ __For CouchDB 2+__ JSON is bit different (see below). You need to insert credent
 
 Next time you can upgrade Photon directly from inside Photon without replication. Just click the rightmost button on the navbar, then click `Check for updates`.
 
-**For CouchDB 3.x:** you should explicitly make `photon` DB public to run Photon, also for 3.1.2+ you need to set `csp/atatchments_enable` config key to `false`.
+**For CouchDB 3.x:** you should explicitly make `photon` DB public to run Photon. For 3.1+ you also need to set `csp/atatchments_enable` config key to `false`, and `chttpd_auth/same_site` to `lax`.
 
 ## Configuring access
 
