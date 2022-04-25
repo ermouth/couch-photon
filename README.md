@@ -15,6 +15,7 @@ Photon is completely self-contained and is safe for restricted networks. Unless 
 * View editor with JS, Erlang and Mango support
 * Document revisions structured diff
 * Local docs list and view
+* Conflicts list
 * Docs purge
 
 ## Installation
