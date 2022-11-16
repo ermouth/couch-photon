@@ -28,22 +28,22 @@ First, copy the script below into a text editor and provide admin username/passw
 
 __For CouchDB 3.0 and earlier:__
 ```bash
-uname=______; upwd=______; \
-couch="-H Content-Type:application/json -X PUT http://$uname:$upwd@127.0.0.1:5984/photon"; \
-curl $couch; curl https://raw.githubusercontent.com/ermouth/couch-photon/master/photon.json | \
-curl $couch/_design/photon -d @- ; curl $couch/_security -d '{}' ; \
-couch=''; uname=''; upwd=''
+couch="http://USER:PASSWORD@127.0.0.1:5984"; \
+head="-H Content-Type:application/json"; \
+curl $head -X PUT $couch/photon; curl https://raw.githubusercontent.com/ermouth/couch-photon/master/photon.json | \
+curl $head -X PUT $couch/photon/_design/photon -d @- ; curl $head -X PUT $couch/photon/_security -d '{}' ; \
+couch=''; head='';
 ```
 
 __For CouchDB 3.1+,__ Couch config tuning added.
 ```bash
-uname=______; upwd=______; \
-couch="-H Content-Type:application/json -X PUT http://$uname:$upwd@127.0.0.1:5984"; \
-curl $couch/photon; curl https://raw.githubusercontent.com/ermouth/couch-photon/master/photon.json | \
-curl $couch/photon/_design/photon -d @- ; curl $couch/photon/_security -d '{}' ; \
-curl $couch/_node/_local/_config/csp/attachments_enable -d '"false"' ; \
-curl $couch/_node/_local/_config/chttpd_auth/same_site -d '"lax"' ; \
-couch=''; uname=''; upwd=''
+couch="http://USER:PASSWORD@127.0.0.1:5984"; \
+head="-H Content-Type:application/json"; \
+curl $head -X PUT $couch/photon; curl https://raw.githubusercontent.com/ermouth/couch-photon/master/photon.json | \
+curl $head -X PUT $couch/photon/_design/photon -d @- ; curl $head -X PUT $couch/photon/_security -d '{}' ; \
+curl $head -X PUT $couch/_node/_local/_config/csp/attachments_enable -d '"false"' ; \
+curl $head -X PUT $couch/_node/_local/_config/chttpd_auth/same_site -d '"lax"' ; \
+couch=''; head='';
 ```
 
 After the process is finished, open `http://127.0.0.1:5984/photon/_design/photon/index.html` in browser. 
@@ -60,7 +60,7 @@ b) `curl -H Content-Type:application/json -X PUT http://yourdomain.com:5984/phot
 
 Next time you can upgrade Photon directly from Photon itself: just click the rightmost button on the navbar, then click `Check for updates` button.
 
-**For CouchDB 3.x:** you should explicitly make `photon` DB public to run Photon. For 3.1+ you also need to set `csp/atatchments_enable` config key to `false`, and `chttpd_auth/same_site` to `lax`.
+**For CouchDB 3.x:** you should explicitly make `photon` DB public to run Photon. For 3.1+ you also need to set `csp/attachments_enable` config key to `false`, and `chttpd_auth/same_site` to `lax`.
 
 ## Install using replication
 
