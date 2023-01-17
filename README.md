@@ -106,6 +106,8 @@ The `Zip/Unzip…` dialog manages DB dump/restore process. Photon can dump sever
 
 Photon can also backup a subset of selected DB documents, as a partial DB dump.
 
+Also any document with attachments can be downloaded as ZIP, with all attachments as separate files. Download button is available in doc editor.
+
 ## CouchDB performance test
 
 Photon design document includes superficial CouchDB performance test accessible from About tab for users with `_admin` role.
@@ -143,4 +145,4 @@ Note that updates are always explicit and are never performed until you click th
 
 ---
 
-(c) 2022 ermouth. Photon is MIT licensed. Works in all modern browsers. 
+(c) 2023 ermouth. Photon is MIT licensed. Works in all modern browsers. 
