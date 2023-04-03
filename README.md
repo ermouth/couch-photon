@@ -11,8 +11,8 @@ Photon is completely self-contained and is safe for restricted networks. Unless 
 * Instant search in view results and JSON trees
 * JSON editor with JS syntax and out-of-order undo
 * Group operations with DBs, ACLs, docs and sync tasks
+* View editor with JS, Erlang, Mango and SQL support
 * Node and cluster level stats display and config
-* View editor with JS, Erlang and Mango support
 * Document revisions structured diff
 * Local docs list and view
 * Conflicts list
