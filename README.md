@@ -1,4 +1,4 @@
-# <img align="right" src="http://jquerymy.com/kod/photon-github.png" /> couch-photon
+# <img align="right" src="https://cdn.cloudwall.me/photon/photon-github.svg" /> couch-photon
 Photon is an alternative CouchDB admin panel with all standard and a lot of unique features. Photon is a single CouchDB design document with attachments, so it can be installed on any running CouchDB without rebuilding or reconfiguring.
 
 Basic Photon features are shown in a short screencast at [youtu.be/M9ptWXfwMN8](https://youtu.be/M9ptWXfwMN8).
@@ -11,7 +11,7 @@ Photon is completely self-contained and is safe for restricted networks. Unless 
 * Instant search in view results and JSON trees
 * JSON editor with JS syntax and out-of-order undo
 * Group operations with DBs, ACLs, docs and sync tasks
-* View editor with JS, Erlang, Mango and SQL support
+* View editor with JS, Erlang, Mango and [SQL](#sql-queries) support
 * Node and cluster level stats display and config
 * Document revisions structured diff
 * Local docs list and view
@@ -113,6 +113,12 @@ Also any document with attachments can be downloaded as ZIP, with all attachment
 Photon design document includes superficial CouchDB performance test accessible from About tab for users with `_admin` role.
 
 The test provides good insights how `q,n` cluster params impact performance. Also, the test shows JS query server costs, and how QS performance depends on sharding options.
+
+## SQL queries
+
+Photon supports a subset of SQL for querying CouchDB, SQL expressions are translated into Mango client-side. Only features allowed by Mango are supported, particularly – no joins are allowed and ordering is limited. Anyway, even a subset of SQL is very handy and concise.
+
+SQL command line and stored queries live in viewindices dropdown.
 
 ## Dedicated host
 
