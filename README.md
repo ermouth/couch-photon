@@ -118,6 +118,8 @@ The test provides good insights how `q,n` cluster params impact performance. Als
 
 Photon supports a subset of SQL for querying CouchDB, SQL expressions are translated into Mango client-side. Only features allowed by Mango are supported, particularly – no joins are allowed and ordering is limited. Anyway, even a subset of SQL is very handy and concise.
 
+Photon understands RegExps passed in MySQL style: `WHERE field RLIKE '^a[bc]$'`. Case-insensitive equivalent is `RLIKE '(?i)^a[bc]$'`. Both `LIKE` and `ILIKE` are also supported. All queries of that sort invoke full bucket scan, they never use full-text index even if one is present.
+
 SQL command line and stored queries live in viewindices dropdown.
 
 ## Dedicated host
