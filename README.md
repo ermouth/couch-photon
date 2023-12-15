@@ -92,7 +92,7 @@ __For CouchDB 2+__ JSON is bit different (see below). You need to insert credent
 
 Next time you can upgrade Photon directly from inside Photon without replication. Just click the rightmost button on the navbar, then click `Check for updates`.
 
-**For CouchDB 3.x:** you should explicitly make `photon` DB public to run Photon. For 3.1+ you also need to set `csp/atatchments_enable` config key to `false`, and `chttpd_auth/same_site` to `lax`.
+**For CouchDB 3.x:** you should explicitly make `photon` DB public to run Photon. For 3.1+ you also need to set `csp/attachments_enable` config key to `false`, and `chttpd_auth/same_site` to `lax`.
 
 ## Configuring access
 
