@@ -96,7 +96,7 @@ Next time you can upgrade Photon directly from inside Photon without replication
 
 ## Configuring access
 
-By default, Photon only starts if a user has `_admin` or `app-photon` role. Allowed roles are listed in `.settings.roles` branch of the Photon design document. You can edit this branch, save ddoc and reload Photon. 
+By default, Photon only starts if a user has `_admin` or `app-photon` role. Allowed roles are listed in `.settings.roles` array of the Photon design document. You can edit the array, save ddoc and reload Photon. Making the list empty allows any user to run Photon.
 
 To preserve settings during Photon update use `Check for updates` button, not replication.
 
