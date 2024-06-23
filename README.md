@@ -139,7 +139,7 @@ Now typing `photon.mydomain.xyz` in the browser runs Photon.
 
 __Where are source files?__
 
-Photon never existed as source _files_, its sources are CouchDB _docs_. Photon is developed and built using specialized dev environment, CloudWall. You can explore [Photon source code](https://cloudwall.me/_demo/#cw/Manifest/!WyJlZGl0IiwiY3ctUGhvdG9uLTFjY2QiXQ--) right in the browser, using CloudWall demo built-in IDE.
+Photon never existed as source _files_, its sources are CouchDB _docs_. Photon is developed and built using specialized dev environment, CloudWall. You can explore [Photon source code](https://cloudwall.me/_demo/?pin=&user=demouser#cw/Manifest/!WyJlZGl0IiwiY3ctUGhvdG9uLTFjY2QiXQ--) right in the browser, using CloudWall demo built-in IDE. Left IDE panel has ` ▶︎ ` button that builds and runs Photon in a popup.
 
 __What is underlying technology?__
 
