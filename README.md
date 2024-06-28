@@ -104,9 +104,9 @@ To preserve settings during Photon update use `Check for updates` button, not re
 
 The `Zip/Unzip…` dialog manages DB dump/restore process. Photon can dump several DBs into one archive file, and later restore them, in full or in part, under the original or different names. In most modern browsers in safe environment (https) Photon uses streaming and can handle gigabytes of data without stalling.
 
-Photon can also backup a subset of selected DB documents, as a partial DB dump.
+Photon can also backup a subset of selected DB documents, as a partial DB dump. Also any single document with attachments can be downloaded as ZIP, with all attachments as separate files. Download button is available in doc editor.
 
-Also any document with attachments can be downloaded as ZIP, with all attachments as separate files. Download button is available in doc editor.
+Photon is also able to restore a DB from a full dump of `_changes` feed provided the feed is stored to .json and has all attachments data in place.
 
 ## CouchDB performance test
 
@@ -153,4 +153,4 @@ Note that updates are always explicit and are never performed until you click th
 
 ---
 
-(c) 2023 ermouth. Photon is MIT licensed. Works in all modern browsers. 
+(c) 2024 ermouth. Photon is MIT licensed. Works in all modern browsers. 
