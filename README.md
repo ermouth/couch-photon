@@ -1,4 +1,4 @@
-# <img align="right" src="https://cdn.cloudwall.me/photon/photon-github.svg" /> couch-photon
+# <img align="right" src="https://cdn.cloudwall.me/photon/photon-github.svg" /> Couch Photon
 Photon is an alternative CouchDB admin panel with all standard and a lot of unique features. Photon is a single CouchDB design document with attachments, so it can be installed on any running CouchDB without rebuilding or reconfiguring.
 
 Basic Photon features are shown in a short screencast at [youtu.be/M9ptWXfwMN8](https://youtu.be/M9ptWXfwMN8).
