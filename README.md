@@ -20,7 +20,7 @@ Photon is completely self-contained and is safe for restricted networks. Unless 
 
 ## Installation
 
-Photon installation process is one-step: put `_design/photon` JSON doc into CouchDB. There are 3 ways: [command line](#install-using-curl), [copy/paste](#install-using-copypaste) and [replication](#install-using-replication).
+Photon installation process is one-step: put `_design/photon` JSON doc into CouchDB. There are 3 ways: [use command line](#install-using-curl), [simply copy/paste](#install-using-copypaste), or use [replication](#install-using-replication).
 
 ## Install using curl
 
@@ -46,15 +46,15 @@ curl $head -X PUT $couch/_node/_local/_config/chttpd_auth/same_site -d '"lax"' ;
 couch=''; head='';
 ```
 
-After the process is finished, open `http://127.0.0.1:5984/photon/_design/photon/index.html` in browser. 
+After the process is finished, open `http://127.0.0.1:5984/photon/_design/photon/index.html` in your browser. 
 
 Next time you can upgrade Photon directly from Photon itself: just click the rightmost button on the navbar, then click `Check for updates` button.
 
 ## Install using copy/paste
 
-Download `photon.json` from [Github](https://raw.githubusercontent.com/ermouth/couch-photon/master/photon.json) or [CloudWall CDN](https://cdn.cloudwall.me/photon/photon.json) and use one of the following ways:
+Download `photon.json` from [Github](https://raw.githubusercontent.com/ermouth/couch-photon/master/photon.json) or [CloudWall CDN](https://cdn.cloudwall.me/photon/photon.json), and then use one of the following ways:
 
-a) Open JSON in any text editor. Create a doc in any CouchDB bucket, using Futon or Fauxton. Copy-paste JSON text into it. Save. Run `index.html` attachment, clicking it in Futon or Fauxton, or directly typing smth like `yourcouchdomain.xyz/photon/_design/photon/index.html`.
+a) Open JSON in any text editor. Create a doc in any CouchDB bucket, using Futon or Fauxton. Copy-paste JSON text into it. Save. Run `index.html` attachment by clicking it in Futon or Fauxton, or directly typing smth like `yourcouchdomain.xyz/photon/_design/photon/index.html`.
 
 b) `curl -H Content-Type:application/json -X PUT http://yourdomain.com:5984/photon/_design/photon -d @photon.json`. Run `index.html`.
 
@@ -102,11 +102,13 @@ To preserve settings during Photon update use `Check for updates` button, not re
 
 ## Dump to ZIP and restore
 
-The `Zip/Unzip…` dialog manages DB dump/restore process. Photon can dump several DBs into one archive file, and later restore them, in full or in part, under the original or different names. In most modern browsers in safe environment (https) Photon uses streaming and can handle gigabytes of data without stalling.
+The `Zip…/Restore…` dialog manages DB dump/restore process. Photon can dump several DBs into one archive file, and later restore them, in full or in part, under the original or different names. In most modern browsers in safe environment (https) Photon uses streaming and can handle gigabytes of data without stalling.
 
-Photon can also backup a subset of selected DB documents, as a partial DB dump. Also any single document with attachments can be downloaded as ZIP, with all attachments as separate files. Download button is available in doc editor.
+Photon can also backup a subset of selected DB documents, as a partial DB dump. Also any single document with attachments can be downloaded as ZIP, with all attachments as separate files. Download button is available in doc JSON editor.
 
-Photon is also able to restore a DB from a full dump of `_changes` feed provided the feed is stored to .json and has all attachments data in place.
+Photon is also able to restore a DB from a full dump of `_changes` or `_all_docs`  provided the dump is stored as a  .json, and also has all attachments base64 data in place, if any.
+
+Actually, any JSON file with an array of docs is ok for `Restore…` dialog – given all docs in the array are valid CouchDB docs.
 
 ## CouchDB performance test
 
