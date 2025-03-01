@@ -106,7 +106,7 @@ The `Zip…/Restore…` dialog manages DB dump/restore process. Photon can dump 
 
 Photon can also backup a subset of selected DB documents, as a partial DB dump. Also any single document with attachments can be downloaded as ZIP, with all attachments as separate files. Download button is available in doc JSON editor.
 
-Photon is also able to restore a DB from a full dump of `_changes` or `_all_docs`  provided the dump is stored as a  .json, and also has all attachments base64 data in place, if any.
+Photon is also able to restore a DB from a full dump of `_changes` or `_all_docs` – provided the dump is stored as a  .json, and also has all attachments base64 data in place, if any.
 
 Actually, any JSON file with an array of docs is ok for `Restore…` dialog – given all docs in the array are valid CouchDB docs.
 
@@ -155,4 +155,4 @@ Note that updates are always explicit and are never performed until you click th
 
 ---
 
-(c) 2024 ermouth. Photon is MIT licensed. Works in all modern browsers. 
+(c) 2025 ermouth. Photon is MIT licensed. Works in all modern browsers. 
