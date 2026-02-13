@@ -155,4 +155,4 @@ Note that updates are always explicit and are never performed until you click th
 
 ---
 
-(c) 2025 ermouth. Photon is MIT licensed. Works in all modern browsers. 
+(c) 2026 ermouth. Photon is MIT licensed. Works in all modern browsers. 
